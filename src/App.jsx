@@ -37,7 +37,30 @@ const QUESTIONS = [
   {
     id: 1, num: 1, title: "Two Sum", topic: ["Array", "Hash Table"], mostAsked: true,
     askCount: 9800,
-    problem: `Given an array of integers 'nums' and an integer 'target', return the indices of the two numbers that add up to the target.\n\nEach input has exactly one solution, and you may not use the same element twice.\n\nExample:\nInput: nums = [2, 7, 11, 15], target = 9\nOutput: [0, 1]\nExplanation: nums[0] + nums[1] = 2 + 7 = 9`,
+    problem: `Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Example 1:
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+Constraints:
+- 2 <= nums.length <= 10^4
+- -10^9 <= nums[i] <= 10^9
+- -10^9 <= target <= 10^9
+- Only one valid answer exists.`,
     solution: `def twoSum(nums, target):
     seen = {}          # dictionary: value -> index
     for i, num in enumerate(nums):
@@ -70,7 +93,25 @@ const QUESTIONS = [
   {
     id: 2, num: 9, title: "Palindrome Number", topic: ["Math"], mostAsked: true,
     askCount: 7200,
-    problem: `Given an integer x, return true if x is a palindrome (reads same forward and backward).\n\nExample:\nInput: x = 121 → Output: true\nInput: x = -121 → Output: false (negative numbers are not palindromes)\nInput: x = 10 → Output: false`,
+    problem: `Given an integer x, return true if x is a palindrome, and false otherwise.
+
+Example 1:
+Input: x = 121
+Output: true
+Explanation: 121 reads as 121 from left to right and from right to left.
+
+Example 2:
+Input: x = -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+Example 3:
+Input: x = 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+Constraints:
+- -2^31 <= x <= 2^31 - 1`,
     solution: `def isPalindrome(x):
     if x < 0:          # negative → never palindrome
         return False
@@ -93,7 +134,28 @@ const QUESTIONS = [
   {
     id: 3, num: 20, title: "Valid Parentheses", topic: ["String", "Stack"], mostAsked: true,
     askCount: 8500,
-    problem: `Given a string containing '(', ')', '{', '}', '[', ']', determine if the input string is valid.\n\nRules:\n1. Open brackets must be closed by the same type.\n2. Open brackets must be closed in the correct order.\n\nExample:\n"()" → true\n"()[]{}" → true\n"(]" → false\n"([)]" → false`,
+    problem: `Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+1. Open brackets must be closed by the same type of brackets.
+2. Open brackets must be closed in the correct order.
+3. Every close bracket has a corresponding open bracket of the same type.
+
+Example 1:
+Input: s = "()"
+Output: true
+
+Example 2:
+Input: s = "()[]{}"
+Output: true
+
+Example 3:
+Input: s = "(]"
+Output: false
+
+Constraints:
+- 1 <= s.length <= 10^4
+- s consists of parentheses only '()[]{}'.`,
     solution: `def isValid(s):
     stack = []
     mapping = {')': '(', '}': '{', ']': '['}
@@ -133,7 +195,28 @@ const QUESTIONS = [
   {
     id: 4, num: 21, title: "Merge Two Sorted Lists", topic: ["Linked List", "Recursion"], mostAsked: true,
     askCount: 7800,
-    problem: `Merge two sorted linked lists and return it as a sorted list.\n\nExample:\nInput: l1 = [1,2,4], l2 = [1,3,4]\nOutput: [1,1,2,3,4,4]`,
+    problem: `You are given the heads of two sorted linked lists list1 and list2.
+
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+
+Example 1:
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+
+Example 2:
+Input: list1 = [], list2 = []
+Output: []
+
+Example 3:
+Input: list1 = [], list2 = [0]
+Output: [0]
+
+Constraints:
+- The number of nodes in both lists is in the range [0, 50].
+- -100 <= Node.val <= 100
+- Both list1 and list2 are sorted in non-decreasing order.`,
     solution: `class ListNode:
     def __init__(self, val=0, next=None):
         self.val = val
@@ -177,7 +260,26 @@ def mergeTwoLists(l1, l2):
   {
     id: 5, num: 26, title: "Remove Duplicates from Sorted Array", topic: ["Array", "Two Pointers"], mostAsked: false,
     askCount: 5600,
-    problem: `Given a sorted array nums, remove duplicates in-place. Return k (number of unique elements).\n\nExample:\nInput: nums = [1,1,2]\nOutput: 2, nums = [1,2,_]\n\nInput: nums = [0,0,1,1,1,2,2,3,3,4]\nOutput: 5, nums = [0,1,2,3,4,_,_,_,_,_]`,
+    problem: `Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+
+Consider the number of unique elements of nums to be k. To get accepted, you need to do the following things:
+1. Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially.
+2. Return k.
+
+Example 1:
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+
+Example 2:
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+
+Constraints:
+- 1 <= nums.length <= 3 * 10^4
+- -100 <= nums[i] <= 100
+- nums is sorted in non-decreasing order.`,
     solution: `def removeDuplicates(nums):
     if not nums:
         return 0
@@ -211,7 +313,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 6, num: 35, title: "Search Insert Position", topic: ["Array", "Binary Search"], mostAsked: false,
     askCount: 5100,
-    problem: `Given a sorted array and a target, return the index if found, or where it would be inserted.\n\nExample:\nInput: nums=[1,3,5,6], target=5 → Output: 2\nInput: nums=[1,3,5,6], target=2 → Output: 1\nInput: nums=[1,3,5,6], target=7 → Output: 4`,
+    problem: `Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+
+Example 2:
+Input: nums = [1,3,5,6], target = 2
+Output: 1
+
+Example 3:
+Input: nums = [1,3,5,6], target = 7
+Output: 4
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -10^4 <= nums[i] <= 10^4
+- nums contains distinct values sorted in ascending order.
+- -10^4 <= target <= 10^4`,
     solution: `def searchInsert(nums, target):
     left, right = 0, len(nums) - 1
     
@@ -247,7 +369,29 @@ def mergeTwoLists(l1, l2):
   {
     id: 7, num: 58, title: "Length of Last Word", topic: ["String"], mostAsked: false,
     askCount: 4200,
-    problem: `Given a string s of words and spaces, return the length of the last word.\n\nExample:\nInput: s = "Hello World" → Output: 5\nInput: s = "   fly me   to   the moon  " → Output: 4\nInput: s = "luffy is still joyboy" → Output: 6`,
+    problem: `Given a string s consisting of words and spaces, return the length of the last word in the string.
+
+A word is a maximal substring consisting of non-space characters only.
+
+Example 1:
+Input: s = "Hello World"
+Output: 5
+Explanation: The last word is "World" with length 5.
+
+Example 2:
+Input: s = "   fly me   to   the moon  "
+Output: 4
+Explanation: The last word is "moon" with length 4.
+
+Example 3:
+Input: s = "luffy is still joyboy"
+Output: 6
+Explanation: The last word is "joyboy" with length 6.
+
+Constraints:
+- 1 <= s.length <= 10^4
+- s consists of only English letters and spaces ' '.
+- There will be at least one word in s.`,
     solution: `def lengthOfLastWord(s):
     return len(s.rstrip())  - s.rstrip().rfind(' ') - 1
     # OR cleaner:
@@ -269,7 +413,29 @@ def mergeTwoLists(l1, l2):
   {
     id: 8, num: 66, title: "Plus One", topic: ["Array", "Math"], mostAsked: false,
     askCount: 4900,
-    problem: `Given a large integer represented as array of digits, increment by one and return the result.\n\nExample:\nInput: digits = [1,2,3] → Output: [1,2,4]\nInput: digits = [1,2,9] → Output: [1,3,0]\nInput: digits = [9,9,9] → Output: [1,0,0,0]`,
+    problem: `You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+Increment the large integer by one and return the resulting array of digits.
+
+Example 1:
+Input: digits = [1,2,3]
+Output: [1,2,4]
+Explanation: The array represents the integer 123. Incrementing by one gives 123 + 1 = 124. Thus, the result should be [1,2,4].
+
+Example 2:
+Input: digits = [4,3,2,1]
+Output: [4,3,2,2]
+Explanation: The array represents the integer 4321. Incrementing by one gives 4321 + 1 = 4322. Thus, the result should be [4,3,2,2].
+
+Example 3:
+Input: digits = [9]
+Output: [1,0]
+Explanation: The array represents the integer 9. Incrementing by one gives 9 + 1 = 10. Thus, the result should be [1,0].
+
+Constraints:
+- 1 <= digits.length <= 100
+- 0 <= digits[i] <= 9
+- digits does not contain any leading 0's.`,
     solution: `def plusOne(digits):
     for i in range(len(digits) - 1, -1, -1):
         if digits[i] < 9:
@@ -294,7 +460,20 @@ def mergeTwoLists(l1, l2):
   {
     id: 9, num: 83, title: "Remove Duplicates from Sorted List", topic: ["Linked List"], mostAsked: false,
     askCount: 4300,
-    problem: `Given head of a sorted linked list, delete all duplicates so each element appears only once.\n\nExample:\nInput: 1→1→2 → Output: 1→2\nInput: 1→1→2→3→3 → Output: 1→2→3`,
+    problem: `Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.
+
+Example 1:
+Input: head = [1,1,2]
+Output: [1,2]
+
+Example 2:
+Input: head = [1,1,2,3,3]
+Output: [1,2,3]
+
+Constraints:
+- The number of nodes in the list is in the range [0, 300].
+- -100 <= Node.val <= 100
+- The list is guaranteed to be sorted in ascending order.`,
     solution: `def deleteDuplicates(head):
     current = head
     
@@ -328,7 +507,34 @@ def mergeTwoLists(l1, l2):
   {
     id: 10, num: 88, title: "Merge Sorted Array", topic: ["Array", "Two Pointers"], mostAsked: true,
     askCount: 7100,
-    problem: `Merge two sorted arrays nums1 and nums2 into nums1 in-place.\nnums1 has length m+n (extra zeros at end for nums2).\n\nExample:\nInput: nums1=[1,2,3,0,0,0], m=3, nums2=[2,5,6], n=3\nOutput: [1,2,2,3,5,6]`,
+    problem: `You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.
+
+Merge nums1 and nums2 into a single array sorted in non-decreasing order.
+
+The final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.
+
+Example 1:
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]
+Explanation: The arrays we are merging are [1,2,3] and [2,5,6]. The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
+
+Example 2:
+Input: nums1 = [1], m = 1, nums2 = [], n = 0
+Output: [1]
+Explanation: The arrays we are merging are [1] and []. The result of the merge is [1].
+
+Example 3:
+Input: nums1 = [0], m = 0, nums2 = [1], n = 1
+Output: [1]
+Explanation: The arrays we are merging are [] and [1]. The result of the merge is [1].
+Note that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.
+
+Constraints:
+- nums1.length == m + n
+- nums2.length == n
+- 0 <= m, n <= 200
+- 1 <= m + n <= 200
+- -10^9 <= nums1[i], nums2[j] <= 10^9`,
     solution: `def merge(nums1, m, nums2, n):
     # Start from the END to avoid overwriting
     i, j, k = m - 1, n - 1, m + n - 1
@@ -369,7 +575,25 @@ def mergeTwoLists(l1, l2):
   {
     id: 11, num: 100, title: "Same Tree", topic: ["Tree", "DFS", "BFS"], mostAsked: false,
     askCount: 4600,
-    problem: `Given roots of two binary trees p and q, check if they are the same.\n\nTwo trees are the same if they have the same structure AND the same node values.\n\nExample:\nInput: p=[1,2,3], q=[1,2,3] → Output: true\nInput: p=[1,2], q=[1,null,2] → Output: false`,
+    problem: `Given the roots of two binary trees p and q, write a function to check if they are the same.
+
+Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+Example 1:
+Input: p = [1,2,3], q = [1,2,3]
+Output: true
+
+Example 2:
+Input: p = [1,2], q = [1,null,2]
+Output: false
+
+Example 3:
+Input: p = [1,2,1], q = [1,1,2]
+Output: false
+
+Constraints:
+- The number of nodes in both trees is in the range [0, 100].
+- -10^4 <= Node.val <= 10^4`,
     solution: `def isSameTree(p, q):
     # Base cases
     if not p and not q:  # both None → same
@@ -401,7 +625,21 @@ def mergeTwoLists(l1, l2):
   {
     id: 12, num: 104, title: "Maximum Depth of Binary Tree", topic: ["Tree", "DFS", "BFS"], mostAsked: true,
     askCount: 6800,
-    problem: `Given root of a binary tree, return its maximum depth (number of nodes along the longest path from root to a leaf).\n\nExample:\nInput: root = [3,9,20,null,null,15,7]\nOutput: 3`,
+    problem: `Given the root of a binary tree, return its maximum depth.
+
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+Example 1:
+Input: root = [3,9,20,null,null,15,7]
+Output: 3
+
+Example 2:
+Input: root = [1,null,2]
+Output: 2
+
+Constraints:
+- The number of nodes in the tree is in the range [0, 10^4].
+- -100 <= Node.val <= 100`,
     solution: `def maxDepth(root):
     if not root:
         return 0
@@ -429,7 +667,25 @@ def mergeTwoLists(l1, l2):
   {
     id: 13, num: 121, title: "Best Time to Buy and Sell Stock", topic: ["Array", "Dynamic Programming"], mostAsked: true,
     askCount: 9200,
-    problem: `Given prices array where prices[i] is stock price on day i, find the maximum profit from one buy-sell transaction.\n\nExample:\nInput: prices = [7,1,5,3,6,4]\nOutput: 5 (buy at 1, sell at 6)\n\nInput: prices = [7,6,4,3,1]\nOutput: 0 (no profit possible)`,
+    problem: `You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+Example 1:
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5. Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+Example 2:
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
+
+Constraints:
+- 1 <= prices.length <= 10^5
+- 0 <= prices[i] <= 10^4`,
     solution: `def maxProfit(prices):
     min_price = float('inf')  # lowest buy price seen
     max_profit = 0
@@ -461,7 +717,26 @@ def mergeTwoLists(l1, l2):
   {
     id: 14, num: 136, title: "Single Number", topic: ["Array", "Bit Manipulation"], mostAsked: true,
     askCount: 7500,
-    problem: `Given an array where every element appears twice except for one. Find that single element.\n\nConstraint: O(n) time, O(1) space.\n\nExample:\nInput: [2,2,1] → Output: 1\nInput: [4,1,2,1,2] → Output: 4`,
+    problem: `Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+Example 1:
+Input: nums = [2,2,1]
+Output: 1
+
+Example 2:
+Input: nums = [4,1,2,1,2]
+Output: 4
+
+Example 3:
+Input: nums = [1]
+Output: 1
+
+Constraints:
+- 1 <= nums.length <= 3 * 10^4
+- -3 * 10^4 <= nums[i] <= 3 * 10^4
+- Each element in the array appears twice except for one element which appears only once.`,
     solution: `def singleNumber(nums):
     result = 0
     for num in nums:
@@ -484,7 +759,28 @@ def mergeTwoLists(l1, l2):
   {
     id: 15, num: 155, title: "Min Stack", topic: ["Stack", "Design"], mostAsked: true,
     askCount: 7000,
-    problem: `Design a stack that supports push, pop, top, and retrieving the minimum element in O(1).\n\nOperations:\n- push(val)\n- pop()\n- top() → top element\n- getMin() → minimum element in stack`,
+    problem: `Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+Implement the MinStack class:
+- MinStack() initializes the stack object.
+- void push(int val) pushes the element val onto the stack.
+- void pop() removes the element on the top of the stack.
+- int top() gets the top element of the stack.
+- int getMin() retrieves the minimum element in the stack.
+
+You must implement a solution with O(1) time complexity for each function.
+
+Example 1:
+Input:
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+Output:
+[null,null,null,null,-3,null,0,-2]
+
+Constraints:
+- -2^31 <= val <= 2^31 - 1
+- Methods pop, top and getMin will always be called on non-empty stacks.
+- At most 3 * 10^4 calls will be made to push, pop, top, and getMin.`,
     solution: `class MinStack:
     def __init__(self):
         self.stack = []
@@ -534,7 +830,28 @@ def mergeTwoLists(l1, l2):
   {
     id: 16, num: 160, title: "Intersection of Two Linked Lists", topic: ["Linked List", "Two Pointers"], mostAsked: false,
     askCount: 5300,
-    problem: `Find the node where two singly linked lists intersect. Return null if no intersection.\n\nExample:\nA: a1→a2→c1→c2→c3\nB: b1→b2→b3→c1→c2→c3\nOutput: Node c1`,
+    problem: `Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.
+
+For example, the following two linked lists begin to intersect at node c1:
+A: a1 → a2 → c1 → c2 → c3
+B: b1 → b2 → b3 → c1 → c2 → c3
+
+Note that the linked lists must retain their original structure after the function returns.
+
+Example 1:
+Input: intersectVal = 8, listA = [4,1,8,4,5], listB = [5,6,1,8,4,5], skipA = 2, skipB = 3
+Output: Intersected at '8'
+
+Example 2:
+Input: intersectVal = 2, listA = [1,9,1,2,4], listB = [3,2,4], skipA = 3, skipB = 1
+Output: Intersected at '2'
+
+Constraints:
+- The number of nodes of listA is in the m.
+- The number of nodes of listB is in the n.
+- 1 <= m, n <= 3 * 10^4
+- 1 <= Node.val <= 10^5
+- intersectVal is 0 if listA and listB do not intersect.`,
     solution: `def getIntersectionNode(headA, headB):
     a, b = headA, headB
     
@@ -565,7 +882,22 @@ def mergeTwoLists(l1, l2):
   {
     id: 17, num: 169, title: "Majority Element", topic: ["Array", "Hash Table"], mostAsked: true,
     askCount: 7600,
-    problem: `Find the majority element (appears more than n/2 times) in an array.\n\nExample:\nInput: [3,2,3] → Output: 3\nInput: [2,2,1,1,1,2,2] → Output: 2`,
+    problem: `Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+Example 1:
+Input: nums = [3,2,3]
+Output: 3
+
+Example 2:
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+
+Constraints:
+- n == nums.length
+- 1 <= n <= 5 * 10^4
+- -10^9 <= nums[i] <= 10^9`,
     solution: `def majorityElement(nums):
     # Boyer-Moore Voting Algorithm
     count = 0
@@ -600,7 +932,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 18, num: 206, title: "Reverse Linked List", topic: ["Linked List", "Recursion"], mostAsked: true,
     askCount: 9500,
-    problem: `Reverse a singly linked list.\n\nExample:\nInput: 1→2→3→4→5→null\nOutput: 5→4→3→2→1→null`,
+    problem: `Given the head of a singly linked list, reverse the list, and return the reversed list.
+
+Example 1:
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+
+Example 2:
+Input: head = [1,2]
+Output: [2,1]
+
+Example 3:
+Input: head = []
+Output: []
+
+Constraints:
+- The number of nodes in the list is the range [0, 5000].
+- -5000 <= Node.val <= 5000`,
     solution: `def reverseList(head):
     prev = None
     current = head
@@ -632,7 +980,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 19, num: 217, title: "Contains Duplicate", topic: ["Array", "Hash Table"], mostAsked: true,
     askCount: 8100,
-    problem: `Given an integer array nums, return true if any value appears at least twice.\n\nExample:\nInput: [1,2,3,1] → Output: true\nInput: [1,2,3,4] → Output: false`,
+    problem: `Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+Example 1:
+Input: nums = [1,2,3,1]
+Output: true
+
+Example 2:
+Input: nums = [1,2,3,4]
+Output: false
+
+Example 3:
+Input: nums = [1,1,1,3,3,4,3,2,4,2]
+Output: true
+
+Constraints:
+- 1 <= nums.length <= 10^5
+- -10^9 <= nums[i] <= 10^9`,
     solution: `def containsDuplicate(nums):
     return len(nums) != len(set(nums))`,
     whyMethod: "A set only stores UNIQUE values. If the set size is smaller than the original array, there must be duplicates. One-liner Python solution!",
@@ -656,7 +1020,21 @@ def mergeTwoLists(l1, l2):
   {
     id: 20, num: 242, title: "Valid Anagram", topic: ["String", "Hash Table"], mostAsked: true,
     askCount: 7900,
-    problem: `Given two strings s and t, return true if t is an anagram of s (same characters, same frequency).\n\nExample:\nInput: s="anagram", t="nagaram" → Output: true\nInput: s="rat", t="car" → Output: false`,
+    problem: `Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+Example 1:
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+Example 2:
+Input: s = "rat", t = "car"
+Output: false
+
+Constraints:
+- 1 <= s.length, t.length <= 5 * 10^4
+- s and t consist of lowercase English letters.`,
     solution: `def isAnagram(s, t):
     from collections import Counter
     return Counter(s) == Counter(t)`,
@@ -681,7 +1059,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 21, num: 268, title: "Missing Number", topic: ["Array", "Math", "Bit Manipulation"], mostAsked: true,
     askCount: 7200,
-    problem: `Given array nums containing n distinct numbers from [0, n], return the only missing number.\n\nExample:\nInput: [3,0,1] → Output: 2\nInput: [9,6,4,2,3,5,7,0,1] → Output: 8`,
+    problem: `Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+Example 1:
+Input: nums = [3,0,1]
+Output: 2
+Explanation: n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 2:
+Input: nums = [0,1]
+Output: 2
+Explanation: n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 3:
+Input: nums = [9,6,4,2,3,5,7,0,1]
+Output: 8
+
+Constraints:
+- n == nums.length
+- 1 <= n <= 10^4
+- 0 <= nums[i] <= n
+- All the numbers of nums are unique.`,
     solution: `def missingNumber(nums):
     n = len(nums)
     expected = n * (n + 1) // 2  # sum of 0..n
@@ -711,7 +1109,21 @@ def mergeTwoLists(l1, l2):
   {
     id: 22, num: 283, title: "Move Zeroes", topic: ["Array", "Two Pointers"], mostAsked: true,
     askCount: 7400,
-    problem: `Given array nums, move all 0s to the end while maintaining the relative order of non-zero elements. Must do it in-place.\n\nExample:\nInput: [0,1,0,3,12] → Output: [1,3,12,0,0]`,
+    problem: `Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+Example 1:
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+
+Example 2:
+Input: nums = [0]
+Output: [0]
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -2^31 <= nums[i] <= 2^31 - 1`,
     solution: `def moveZeroes(nums):
     insert_pos = 0  # position to write next non-zero
     
@@ -745,7 +1157,21 @@ def mergeTwoLists(l1, l2):
   {
     id: 23, num: 344, title: "Reverse String", topic: ["String", "Two Pointers"], mostAsked: false,
     askCount: 5500,
-    problem: `Reverse a string in-place. Input is a list of characters.\n\nExample:\nInput: ['h','e','l','l','o'] → Output: ['o','l','l','e','h']`,
+    problem: `Write a function that reverses a string. The input string is given as an array of characters s.
+
+You must do this by modifying the input array in-place with O(1) extra memory.
+
+Example 1:
+Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+
+Example 2:
+Input: s = ["H","a","n","n","a","h"]
+Output: ["h","a","n","n","a","H"]
+
+Constraints:
+- 1 <= s.length <= 10^5
+- s[i] is a printable ascii character.`,
     solution: `def reverseString(s):
     left, right = 0, len(s) - 1
     
@@ -777,7 +1203,20 @@ def mergeTwoLists(l1, l2):
   {
     id: 24, num: 350, title: "Intersection of Two Arrays II", topic: ["Array", "Hash Table", "Two Pointers"], mostAsked: false,
     askCount: 5800,
-    problem: `Find intersection of two arrays. Each element in result should appear as many times as it shows in both arrays.\n\nExample:\nInput: nums1=[1,2,2,1], nums2=[2,2] → Output: [2,2]\nInput: nums1=[4,9,5], nums2=[9,4,9,8,4] → Output: [4,9]`,
+    problem: `Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+Example 1:
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+
+Example 2:
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [4,9]
+Explanation: [9,4] is also accepted.
+
+Constraints:
+- 1 <= nums1.length, nums2.length <= 1000
+- 0 <= nums1[i], nums2[i] <= 1000`,
     solution: `def intersect(nums1, nums2):
     from collections import Counter
     c1 = Counter(nums1)
@@ -806,7 +1245,26 @@ def mergeTwoLists(l1, l2):
   {
     id: 25, num: 412, title: "Fizz Buzz", topic: ["Math", "String", "Simulation"], mostAsked: false,
     askCount: 6200,
-    problem: `For integers 1 to n:\n- "FizzBuzz" if divisible by 3 AND 5\n- "Fizz" if divisible by 3\n- "Buzz" if divisible by 5\n- The number itself otherwise\n\nExample:\nInput: n=15\nOutput: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]`,
+    problem: `Given an integer n, return a string array answer (1-indexed) where:
+- answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+- answer[i] == "Fizz" if i is divisible by 3.
+- answer[i] == "Buzz" if i is divisible by 5.
+- answer[i] == i (as a string) if none of the above conditions are true.
+
+Example 1:
+Input: n = 3
+Output: ["1","2","Fizz"]
+
+Example 2:
+Input: n = 5
+Output: ["1","2","Fizz","4","Buzz"]
+
+Example 3:
+Input: n = 15
+Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+
+Constraints:
+- 1 <= n <= 10^4`,
     solution: `def fizzBuzz(n):
     result = []
     for i in range(1, n + 1):
@@ -841,7 +1299,20 @@ def mergeTwoLists(l1, l2):
   {
     id: 26, num: 448, title: "Find All Numbers Disappeared in an Array", topic: ["Array", "Hash Table"], mostAsked: false,
     askCount: 5900,
-    problem: `Given array nums of n integers where nums[i] is in [1,n], find all integers in [1,n] that don't appear in nums.\n\nExample:\nInput: [4,3,2,7,8,2,3,1] → Output: [5,6]`,
+    problem: `Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums.
+
+Example 1:
+Input: nums = [4,3,2,7,8,2,3,1]
+Output: [5,6]
+
+Example 2:
+Input: nums = [1,1]
+Output: [2]
+
+Constraints:
+- n == nums.length
+- 1 <= n <= 10^5
+- 1 <= nums[i] <= n`,
     solution: `def findDisappearedNumbers(nums):
     # Mark visited indices as negative
     for num in nums:
@@ -871,7 +1342,18 @@ def mergeTwoLists(l1, l2):
   {
     id: 27, num: 509, title: "Fibonacci Number", topic: ["Math", "Dynamic Programming", "Recursion"], mostAsked: false,
     askCount: 6100,
-    problem: `F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2) for n>1.\nReturn F(n).\n\nExample:\nF(4) = F(3)+F(2) = 3`,
+    problem: `F(0)=0, F(1)=1, F(n)=F(n-1)+F(n-2) for n>1. Return F(n).
+
+Example 1:
+Input: n = 2
+Output: 1
+
+Example 2:
+Input: n = 4
+Output: 3
+
+Constraints:
+- 0 <= n <= 30`,
     solution: `def fib(n):
     if n <= 1:
         return n
@@ -901,7 +1383,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 28, num: 704, title: "Binary Search", topic: ["Array", "Binary Search"], mostAsked: false,
     askCount: 6400,
-    problem: `Given sorted array of distinct integers and a target, return the index if found, or -1 if not.\n\nExample:\nInput: nums=[-1,0,3,5,9,12], target=9 → Output: 4\nInput: nums=[-1,0,3,5,9,12], target=2 → Output: -1`,
+    problem: `Given sorted array of distinct integers and a target, return the index if found, or -1 if not.
+
+Example 1:
+Input: nums=[-1,0,3,5,9,12], target=9
+Output: 4
+
+Example 2:
+Input: nums=[-1,0,3,5,9,12], target=2
+Output: -1
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -10^4 < nums[i], target < 10^4`,
     solution: `def search(nums, target):
     left, right = 0, len(nums) - 1
     
@@ -938,7 +1432,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 29, num: 876, title: "Middle of the Linked List", topic: ["Linked List", "Two Pointers"], mostAsked: false,
     askCount: 5700,
-    problem: `Find the middle node of a linked list.\n\nExample:\nInput: 1→2→3→4→5 → Output: Node 3\nInput: 1→2→3→4→5→6 → Output: Node 4 (second middle)`,
+    problem: `Find the middle node of a linked list.
+
+Example 1:
+Input: 1→2→3→4→5
+Output: Node 3
+
+Example 2:
+Input: 1→2→3→4→5→6
+Output: Node 4
+
+Constraints:
+- The number of nodes in the list is in the range [1, 100].
+- 1 <= Node.val <= 100`,
     solution: `def middleNode(head):
     slow = fast = head
     
@@ -968,7 +1474,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 30, num: 977, title: "Squares of a Sorted Array", topic: ["Array", "Two Pointers", "Sorting"], mostAsked: false,
     askCount: 5400,
-    problem: `Given sorted array of integers, return sorted array of squares of each number.\n\nExample:\nInput: [-4,-1,0,3,10] → Output: [0,1,9,16,100]\nInput: [-7,-3,2,3,11] → Output: [4,9,9,49,121]`,
+    problem: `Given sorted array of integers, return sorted array of squares of each number.
+
+Example 1:
+Input: [-4,-1,0,3,10]
+Output: [0,1,9,16,100]
+
+Example 2:
+Input: [-7,-3,2,3,11]
+Output: [4,9,9,49,121]
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -10^4 <= nums[i] <= 10^4`,
     solution: `def sortedSquares(nums):
     n = len(nums)
     result = [0] * n
@@ -1010,7 +1528,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 31, num: 67, title: "Add Binary", topic: ["Math", "String"], mostAsked: false,
     askCount: 4100,
-    problem: `Given two binary strings a and b, return their sum as a binary string.\n\nExample:\nInput: a = "11", b = "1" → Output: "100"\nInput: a = "1010", b = "1011" → Output: "10101"`,
+    problem: `Given two binary strings a and b, return their sum as a binary string.
+
+Example 1:
+Input: a = "11", b = "1"
+Output: "100"
+
+Example 2:
+Input: a = "1010", b = "1011"
+Output: "10101"
+
+Constraints:
+- 1 <= a.length, b.length <= 10^4
+- a and b consist only of '0' or '1' characters.`,
     solution: `def addBinary(a, b):
     res = []
     carry = 0
@@ -1043,7 +1573,18 @@ def mergeTwoLists(l1, l2):
   {
     id: 32, num: 69, title: "Sqrt(x)", topic: ["Math", "Binary Search"], mostAsked: false,
     askCount: 4800,
-    problem: `Given a non-negative integer x, compute and return the square root of x rounded down to the nearest integer.\n\nExample:\nInput: x = 4 → Output: 2\nInput: x = 8 → Output: 2 (sqrt(8) is 2.828..., rounded down is 2)`,
+    problem: `Given a non-negative integer x, compute and return the square root of x rounded down to the nearest integer.
+
+Example 1:
+Input: x = 4
+Output: 2
+
+Example 2:
+Input: x = 8
+Output: 2
+
+Constraints:
+- 0 <= x <= 2^31 - 1`,
     solution: `def mySqrt(x):
     if x < 2: return x
     left, right = 2, x // 2
@@ -1071,7 +1612,18 @@ def mergeTwoLists(l1, l2):
   {
     id: 33, num: 70, title: "Climbing Stairs", topic: ["Math", "Dynamic Programming"], mostAsked: true,
     askCount: 8900,
-    problem: `You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?\n\nExample:\nInput: n = 2 → Output: 2 (1+1, 2)\nInput: n = 3 → Output: 3 (1+1+1, 1+2, 2+1)`,
+    problem: `You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Example 1:
+Input: n = 2
+Output: 2
+
+Example 2:
+Input: n = 3
+Output: 3
+
+Constraints:
+- 1 <= n <= 45`,
     solution: `def climbStairs(n):
     if n <= 2: return n
     first, second = 1, 2
@@ -1095,7 +1647,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 34, num: 94, title: "Binary Tree Inorder Traversal", topic: ["Stack", "Tree", "Depth-First Search"], mostAsked: false,
     askCount: 5200,
-    problem: `Given the root of a binary tree, return the inorder traversal of its nodes' values.\n(Inorder: Left → Root → Right)\n\nExample:\nInput: [1,null,2,3] → Output: [1,3,2]`,
+    problem: `Given the root of a binary tree, return the inorder traversal of its nodes' values.
+
+Example 1:
+Input: root = [1,null,2,3]
+Output: [1,3,2]
+
+Example 2:
+Input: root = []
+Output: []
+
+Constraints:
+- The number of nodes in the tree is in the range [0, 100].
+- -100 <= Node.val <= 100`,
     solution: `def inorderTraversal(root):
     res = []
     def dfs(node):
@@ -1120,7 +1684,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 35, num: 101, title: "Symmetric Tree", topic: ["Tree", "DFS", "BFS"], mostAsked: false,
     askCount: 4900,
-    problem: `Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).\n\nExample:\nInput: [1,2,2,3,4,4,3] → Output: true\nInput: [1,2,2,null,3,null,3] → Output: false`,
+    problem: `Given the root of a binary tree, check whether it is a mirror of itself.
+
+Example 1:
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+
+Example 2:
+Input: root = [1,2,2,null,3,null,3]
+Output: false
+
+Constraints:
+- The number of nodes in the tree is in the range [1, 1000].
+- -100 <= Node.val <= 100`,
     solution: `def isSymmetric(root):
     def isMirror(t1, t2):
         if not t1 and not t2: return True
@@ -1144,7 +1720,16 @@ def mergeTwoLists(l1, l2):
   {
     id: 36, num: 112, title: "Path Sum", topic: ["Tree", "DFS"], mostAsked: false,
     askCount: 4500,
-    problem: `Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.\n\nExample:\nInput: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22 → Output: true`,
+    problem: `Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+Example 1:
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+Output: true
+
+Constraints:
+- The number of nodes in the tree is in the range [0, 5000].
+- -1000 <= Node.val <= 1000
+- -1000 <= targetSum <= 1000`,
     solution: `def hasPathSum(root, targetSum):
     if not root: return False
     
@@ -1169,7 +1754,14 @@ def mergeTwoLists(l1, l2):
   {
     id: 37, num: 118, title: "Pascal's Triangle", topic: ["Array", "Dynamic Programming"], mostAsked: false,
     askCount: 5500,
-    problem: `Given an integer numRows, return the first numRows of Pascal's triangle.\n\nExample:\nInput: numRows = 5\nOutput: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`,
+    problem: `Given an integer numRows, return the first numRows of Pascal's triangle.
+
+Example 1:
+Input: numRows = 5
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+Constraints:
+- 1 <= numRows <= 30`,
     solution: `def generate(numRows):
     res = [[1]]
     for i in range(1, numRows):
@@ -1194,7 +1786,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 38, num: 125, title: "Valid Palindrome", topic: ["Two Pointers", "String"], mostAsked: true,
     askCount: 8200,
-    problem: `A phrase is a palindrome if, after converting all uppercase letters into lowercase and removing all non-alphanumeric characters, it reads the same forward and backward.\n\nExample:\nInput: "A man, a plan, a canal: Panama" → Output: true\nInput: "race a car" → Output: false`,
+    problem: `A phrase is a palindrome if, after converting all uppercase letters into lowercase and removing all non-alphanumeric characters, it reads the same forward and backward.
+
+Example 1:
+Input: "A man, a plan, a canal: Panama"
+Output: true
+
+Example 2:
+Input: "race a car"
+Output: false
+
+Constraints:
+- 1 <= s.length <= 2 * 10^5
+- s consists only of printable ASCII characters.`,
     solution: `def isPalindrome(s):
     l, r = 0, len(s) - 1
     while l < r:
@@ -1221,7 +1825,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 39, num: 141, title: "Linked List Cycle", topic: ["Hash Table", "Linked List", "Two Pointers"], mostAsked: true,
     askCount: 8800,
-    problem: `Given head, the head of a linked list, determine if the linked list has a cycle in it.\n\nExample:\nInput: head = [3,2,0,-4], pos = 1 (tail connects to node index 1) → Output: true`,
+    problem: `Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+Example 1:
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+
+Example 2:
+Input: head = [1,2], pos = 0
+Output: true
+
+Constraints:
+- The number of nodes in the list is in the range [0, 10^4].
+- -10^5 <= Node.val <= 10^5`,
     solution: `def hasCycle(head):
     slow = fast = head
     while fast and fast.next:
@@ -1245,7 +1861,18 @@ def mergeTwoLists(l1, l2):
   {
     id: 40, num: 202, title: "Happy Number", topic: ["Hash Table", "Math", "Two Pointers"], mostAsked: false,
     askCount: 4700,
-    problem: `Write an algorithm to determine if a number n is happy.\n\nA happy number is a number where replacing it with the sum of the squares of its digits eventually leads to 1. If it loops endlessly in a cycle that does not include 1, it is not happy.\n\nExample:\nInput: n = 19 → Output: true (1²+9²=82, 8²+2²=68, 6²+8²=100, 1²+0²+0²=1)`,
+    problem: `Write an algorithm to determine if a number n is happy.
+
+Example 1:
+Input: n = 19
+Output: true
+
+Example 2:
+Input: n = 2
+Output: false
+
+Constraints:
+- 1 <= n <= 2^31 - 1`,
     solution: `def isHappy(n):
     seen = set()
     while n != 1 and n not in seen:
@@ -1267,7 +1894,20 @@ def mergeTwoLists(l1, l2):
   {
     id: 41, num: 203, title: "Remove Linked List Elements", topic: ["Linked List", "Recursion"], mostAsked: false,
     askCount: 4200,
-    problem: `Given the head of a linked list and an integer val, remove all nodes with value 'val'.\n\nExample:\nInput: 1→2→6→3→4→5→6, val = 6 → Output: 1→2→3→4→5`,
+    problem: `Given the head of a linked list and an integer val, remove all nodes with value 'val'.
+
+Example 1:
+Input: head = [1,2,6,3,4,5,6], val = 6
+Output: [1,2,3,4,5]
+
+Example 2:
+Input: head = [], val = 1
+Output: []
+
+Constraints:
+- The number of nodes in the list is in the range [0, 10^4].
+- 1 <= Node.val <= 50
+- 0 <= val <= 50`,
     solution: `def removeElements(head, val):
     dummy = ListNode(0, head)
     curr = dummy
@@ -1292,7 +1932,20 @@ def mergeTwoLists(l1, l2):
   {
     id: 42, num: 205, title: "Isomorphic Strings", topic: ["Hash Table", "String"], mostAsked: false,
     askCount: 3900,
-    problem: `Two strings s and t are isomorphic if characters in s can be replaced to get t.\nNo two characters may map to the same character, but a character may map to itself.\n\nExample:\nInput: s="egg", t="add" → Output: true\nInput: s="foo", t="bar" → Output: false`,
+    problem: `Two strings s and t are isomorphic if characters in s can be replaced to get t.
+
+Example 1:
+Input: s = "egg", t = "add"
+Output: true
+
+Example 2:
+Input: s = "foo", t = "bar"
+Output: false
+
+Constraints:
+- 1 <= s.length <= 5 * 10^4
+- t.length == s.length
+- s and t consist of any valid ASCII character.`,
     solution: `def isIsomorphic(s, t):
     mapST, mapTS = {}, {}
     for c1, c2 in zip(s, t):
@@ -1317,7 +1970,15 @@ def mergeTwoLists(l1, l2):
   {
     id: 43, num: 226, title: "Invert Binary Tree", topic: ["Tree", "DFS", "BFS"], mostAsked: true,
     askCount: 12000,
-    problem: `Given the root of a binary tree, invert the tree (mirror it) and return its root.\n\nExample:\nInput: [4,2,7,1,3,6,9] → Output: [4,7,2,9,6,3,1]`,
+    problem: `Given the root of a binary tree, invert the tree (mirror it) and return its root.
+
+Example 1:
+Input: root = [4,2,7,1,3,6,9]
+Output: [4,7,2,9,6,3,1]
+
+Constraints:
+- The number of nodes in the tree is in the range [0, 100].
+- -100 <= Node.val <= 100`,
     solution: `def invertTree(root):
     if not root: return None
     
@@ -1339,7 +2000,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 44, num: 234, title: "Palindrome Linked List", topic: ["Linked List", "Two Pointers", "Recursion"], mostAsked: true,
     askCount: 6500,
-    problem: `Given the head of a singly linked list, return true if it is a palindrome.\n\nExample:\nInput: 1→2→2→1 → Output: true\nInput: 1→2 → Output: false`,
+    problem: `Given the head of a singly linked list, return true if it is a palindrome.
+
+Example 1:
+Input: head = [1,2,2,1]
+Output: true
+
+Example 2:
+Input: head = [1,2]
+Output: false
+
+Constraints:
+- The number of nodes in the list is in the range [1, 10^5].
+- 0 <= Node.val <= 9`,
     solution: `def isPalindrome(head):
     slow = fast = head
     while fast and fast.next:
@@ -1373,7 +2046,18 @@ def mergeTwoLists(l1, l2):
   {
     id: 45, num: 258, title: "Add Digits", topic: ["Math", "Simulation", "Number Theory"], mostAsked: false,
     askCount: 3200,
-    problem: `Given an integer n, repeatedly add all its digits until the result has only one digit, and return it.\n\nExample:\nInput: 38 → Output: 2 (3+8=11, 1+1=2)`,
+    problem: `Given an integer n, repeatedly add all its digits until the result has only one digit, and return it.
+
+Example 1:
+Input: n = 38
+Output: 2
+
+Example 2:
+Input: n = 0
+Output: 0
+
+Constraints:
+- 0 <= n <= 2^31 - 1`,
     solution: `def addDigits(n):
     if n == 0: return 0
     return 1 + (n - 1) % 9`,
@@ -1392,7 +2076,19 @@ def mergeTwoLists(l1, l2):
   {
     id: 46, num: 383, title: "Ransom Note", topic: ["Hash Table", "String", "Counting"], mostAsked: true,
     askCount: 6800,
-    problem: `Given ransomNote and magazine strings, return true if ransomNote can be constructed from magazine.\nEach letter in magazine can only be used once.\n\nExample:\nInput: rs="a", mag="b" → false\nInput: rs="aa", mag="aab" → true`,
+    problem: `Given ransomNote and magazine strings, return true if ransomNote can be constructed from magazine.
+
+Example 1:
+Input: ransomNote = "a", magazine = "b"
+Output: false
+
+Example 2:
+Input: ransomNote = "aa", magazine = "aab"
+Output: true
+
+Constraints:
+- 1 <= ransomNote.length, magazine.length <= 10^5
+- ransomNote and magazine consist of lowercase English letters.`,
     solution: `def canConstruct(ransomNote, magazine):
     from collections import Counter
     mag_count = Counter(magazine)
@@ -1417,7 +2113,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 47, num: 387, title: "First Unique Character in a String", topic: ["Hash Table", "String"], mostAsked: true,
     askCount: 6100,
-    problem: `Find the first non-repeating character in a string and return its index. If it does not exist, return -1.\n\nExample:\nInput: "leetcode" → Output: 0 (l)\nInput: "loveleetcode" → Output: 2 (v)`,
+    problem: `Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+Example 1:
+Input: s = "leetcode"
+Output: 0
+
+Example 2:
+Input: s = "loveleetcode"
+Output: 2
+
+Example 3:
+Input: s = "aabb"
+Output: -1
+
+Constraints:
+- 1 <= s.length <= 10^5
+- s consists of only lowercase English letters.`,
     solution: `def firstUniqChar(s):
     count = collections.Counter(s)
     for i, char in enumerate(s):
@@ -1439,7 +2151,22 @@ def mergeTwoLists(l1, l2):
   {
     id: 48, num: 392, title: "Is Subsequence", topic: ["Two Pointers", "String", "Dynamic Programming"], mostAsked: true,
     askCount: 7200,
-    problem: `Given strings s and t, return true if s is a subsequence of t.\n\nExample:\nInput: s = "abc", t = "ahbgdc" → Output: true\nInput: s = "axc", t = "ahbgdc" → Output: false`,
+    problem: `Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+
+A subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., "ace" is a subsequence of "abcde" while "aec" is not).
+
+Example 1:
+Input: s = "abc", t = "ahbgdc"
+Output: true
+
+Example 2:
+Input: s = "axc", t = "ahbgdc"
+Output: false
+
+Constraints:
+- 0 <= s.length <= 100
+- 0 <= t.length <= 10^4
+- s and t consist only of lowercase English letters.`,
     solution: `def isSubsequence(s, t):
     if not s: return True
     i = 0
@@ -1462,7 +2189,30 @@ def mergeTwoLists(l1, l2):
   {
     id: 49, num: 463, title: "Island Perimeter", topic: ["Array", "Hash Table", "Math", "DFS"], mostAsked: false,
     askCount: 3100,
-    problem: `You are given a map (grid) where 1 represents land and 0 represents water. Find the perimeter of the island.\n\nExample:\nInput: [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]\nOutput: 16`,
+    problem: `You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.
+
+Grid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).
+
+The island doesn't have "lakes", meaning the water inside isn't connected to the water around the island. One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.
+
+Example 1:
+Input: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]
+Output: 16
+
+Example 2:
+Input: grid = [[1]]
+Output: 4
+
+Example 3:
+Input: grid = [[1,0]]
+Output: 4
+
+Constraints:
+- row == grid.length
+- col == grid[i].length
+- 1 <= row, col <= 100
+- grid[i][j] is 0 or 1.
+- There is exactly one island in grid.`,
     solution: `def islandPerimeter(grid):
     rows, cols = len(grid), len(grid[0])
     perimeter = 0
@@ -1488,7 +2238,24 @@ def mergeTwoLists(l1, l2):
   {
     id: 50, num: 543, title: "Diameter of Binary Tree", topic: ["Tree", "DFS"], mostAsked: true,
     askCount: 7800,
-    problem: `Return the length of the diameter of a binary tree.\nThe diameter is the length of the longest path between any two nodes. This path may or may not pass through the root.\n\nExample:\nInput: [1,2,3,4,5] → Output: 3 (4→2→5→1→3 is distance 3)`,
+    problem: `Given the root of a binary tree, return the length of the diameter of the tree.
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Example 1:
+Input: root = [1,2,3,4,5]
+Output: 3
+Explanation: 3 is the length of the path [4,2,5,1,3] or [5,2,4,1,3].
+
+Example 2:
+Input: root = [1,2]
+Output: 1
+
+Constraints:
+- The number of nodes in the tree is in the range [1, 10^4].
+- -100 <= Node.val <= 100`,
     solution: `def diameterOfBinaryTree(root):
     self.res = 0
     def dfs(node):
@@ -1513,7 +2280,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 51, num: 605, title: "Can Place Flowers", topic: ["Array", "Greedy"], mostAsked: true,
     askCount: 4500,
-    problem: `Given a flowerbed (array of 0s and 1s) and n, return true if n new flowers can be planted without violating the no-adjacent-flowers rule.\n\nExample:\nInput: [1,0,0,0,1], n=1 → true\nInput: [1,0,0,0,1], n=2 → false`,
+    problem: `You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+
+Example 1:
+Input: flowerbed = [1,0,0,0,1], n = 1
+Output: true
+
+Example 2:
+Input: flowerbed = [1,0,0,0,1], n = 2
+Output: false
+
+Constraints:
+- 1 <= flowerbed.length <= 2 * 10^4
+- flowerbed[i] is 0 or 1.
+- There are no two adjacent flowers in flowerbed.
+- 0 <= n <= flowerbed.length`,
     solution: `def canPlaceFlowers(flowerbed, n):
     count = 0
     bed = [0] + flowerbed + [0]
@@ -1537,7 +2320,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 52, num: 617, title: "Merge Two Binary Trees", topic: ["Tree", "DFS"], mostAsked: true,
     askCount: 5800,
-    problem: `Merge two binary trees. If two nodes overlap, sum their values. Otherwise, use the non-null node.\n\nExample:\nInput: t1=[1,3,2,5], t2=[2,1,3,null,4,null,7]\nOutput: [3,4,5,5,4,null,7]`,
+    problem: `You are given two binary trees root1 and root2.
+
+Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
+
+Return the merged tree.
+
+Example 1:
+Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+Output: [3,4,5,5,4,null,7]
+
+Example 2:
+Input: root1 = [1], root2 = [1,2]
+Output: [2,2]
+
+Constraints:
+- The number of nodes in both trees is in the range [0, 2000].
+- -10^4 <= Node.val <= 10^4`,
     solution: `def mergeTrees(t1, t2):
     if not t1: return t2
     if not t2: return t1
@@ -1561,7 +2360,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 53, num: 700, title: "Search in a Binary Search Tree", topic: ["Tree", "Binary Search Tree"], mostAsked: false,
     askCount: 4100,
-    problem: `Find the node in a BST that equals 'val' and return the subtree rooted at that node.\n\nExample:\nInput: root=[4,2,7,1,3], val=2 → Output: [2,1,3]`,
+    problem: `You are given the root of a binary search tree (BST) and an integer val.
+
+Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+Example 1:
+Input: root = [4,2,7,1,3], val = 2
+Output: [2,1,3]
+
+Example 2:
+Input: root = [4,2,7,1,3], val = 5
+Output: []
+
+Constraints:
+- The number of nodes in the tree is in the range [1, 5000].
+- 1 <= Node.val <= 10^7
+- root is a binary search tree.
+- 1 <= val <= 10^7`,
     solution: `def searchBST(root, val):
     if not root or root.val == val:
         return root
@@ -1584,7 +2399,25 @@ def mergeTwoLists(l1, l2):
   {
     id: 54, num: 703, title: "Kth Largest Element in a Stream", topic: ["Tree", "Heap", "Design"], mostAsked: true,
     askCount: 5200,
-    problem: `Design a class to find the kth largest element in a stream of numbers.\n\nExample:\nKthLargest k = new KthLargest(3, [4,5,8,2]);\nk.add(3) → 4 (sorted 2,3,4,5,8)\nk.add(5) → 5 (sorted 2,3,4,5,5,8)`,
+    problem: `Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Implement KthLargest class:
+- KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of integers nums.
+- int add(int val) Appends the integer val to the stream and returns the element representing the kth largest element in the stream.
+
+Example 1:
+Input:
+["KthLargest", "add", "add", "add", "add", "add"]
+[[3, [4, 5, 8, 2]], [3], [5], [10], [9], [4]]
+Output:
+[null, 4, 5, 5, 8, 8]
+
+Constraints:
+- 1 <= k <= 10^4
+- 0 <= nums.length <= 10^4
+- -10^4 <= nums[i] <= 10^4
+- -10^4 <= val <= 10^4
+- At most 10^4 calls will be made to add.`,
     solution: `class KthLargest:
     def __init__(self, k, nums):
         self.k = k
@@ -1685,7 +2518,22 @@ def mergeTwoLists(l1, l2):
   {
     id: 57, num: 724, title: "Find Pivot Index", topic: ["Array", "Prefix Sum"], mostAsked: true,
     askCount: 4900,
-    problem: `Find index where sum of all numbers to the left equals sum of all numbers to the right.\n\nExample:\nInput: [1,7,3,6,5,6] → Output: 3 (1+7+3 = 11, 5+6 = 11)`,
+    problem: `Given an array of integers nums, calculate the pivot index of this array.
+
+The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+Example 1:
+Input: nums = [1,7,3,6,5,6]
+Output: 3
+Explanation: The pivot index is 3. Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11. Right sum = nums[4] + nums[5] = 5 + 6 = 11.
+
+Example 2:
+Input: nums = [1,2,3]
+Output: -1
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -1000 <= nums[i] <= 1000`,
     solution: `def pivotIndex(nums):
     total = sum(nums)
     left_sum = 0
@@ -1709,7 +2557,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 58, num: 733, title: "Flood Fill", topic: ["Array", "DFS", "BFS"], mostAsked: true,
     askCount: 4800,
-    problem: `Perform a 'flood fill' on an image starting from (sr, sc). Change color of starting pixel and all connected pixels of same original color.\n\nExample:\nInput: [[1,1,1],[1,1,0],[1,0,1]], sr=1, sc=1, color=2\nOutput: [[2,2,2],[2,2,0],[2,0,1]]`,
+    problem: `An image is represented by an m x n integer grid image where image[i][j] represents the pixel value of the image.
+
+You are also given three integers sr, sc, and color. You should perform a flood fill on the image starting from the pixel image[sr][sc].
+
+To perform a flood fill, consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color), and so on. Replace the color of all of the aforementioned pixels with color.
+
+Example 1:
+Input: image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+
+Example 2:
+Input: image = [[0,0,0],[0,0,0]], sr = 0, sc = 0, color = 0
+Output: [[0,0,0],[0,0,0]]
+
+Constraints:
+- m == image.length
+- n == image[i].length
+- 1 <= m, n <= 50
+- 0 <= image[i][j], color < 2^16
+- 0 <= sr < m
+- 0 <= sc < n`,
     solution: `def floodFill(image, sr, sc, color):
     start_color = image[sr][sc]
     if start_color == color: return image
@@ -1742,7 +2610,24 @@ def mergeTwoLists(l1, l2):
   {
     id: 59, num: 746, title: "Min Cost Climbing Stairs", topic: ["Array", "Dynamic Programming"], mostAsked: false,
     askCount: 3900,
-    problem: `You can step 1 or 2 stairs. costs[i] is cost for step i. Return min cost to reach top.\n\nExample:\nInput: [10, 15, 20] → Output: 15 (start at index 1, skip to top)`,
+    problem: `You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
+
+You can either start from the step with index 0, or the step with index 1.
+
+Return the minimum cost to reach the top of the floor.
+
+Example 1:
+Input: cost = [10,15,20]
+Output: 15
+Explanation: You will start at index 1. Pay 15 and climb two steps to reach the top.
+
+Example 2:
+Input: cost = [1,100,1,1,1,100,1,1,100,1]
+Output: 6
+
+Constraints:
+- 2 <= cost.length <= 1000
+- 0 <= cost[i] <= 999`,
     solution: `def minCostClimbingStairs(cost):
     cost.append(0) # the floor above last step
     for i in range(len(cost) - 3, -1, -1):
@@ -1763,7 +2648,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 60, num: 844, title: "Backspace String Compare", topic: ["Two Pointers", "String", "Stack"], mostAsked: true,
     askCount: 5100,
-    problem: `Comparing strings with '#' as backspace character.\n\nExample:\nInput: s="ab#c", t="ad#c" → Output: true (both become "ac")`,
+    problem: `Given two strings s and t, return true if they are equal when both are typed into empty text editors. '#' means a backspace character.
+
+Note that after backspacing an empty text, the text will continue empty.
+
+Example 1:
+Input: s = "ab#c", t = "ad#c"
+Output: true
+Explanation: Both s and t become "ac".
+
+Example 2:
+Input: s = "ab##", t = "c#d#"
+Output: true
+Explanation: Both s and t become "".
+
+Constraints:
+- 1 <= s.length, t.length <= 200
+- s and t only contain lowercase letters and '#' characters.`,
     solution: `def backspaceCompare(s, t):
     def build(S):
         stack = []
@@ -1787,7 +2688,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 61, num: 860, title: "Lemonade Change", topic: ["Array", "Greedy"], mostAsked: false,
     askCount: 3300,
-    problem: `You sell $5 lemonade. Bills are 5, 10, or 20. Return true if you can provide change to every customer.\n\nExample:\nInput: [5,5,5,10,20] → Output: true\nInput: [5,5,10,10,20] → Output: false`,
+    problem: `At a lemonade stand, each lemonade costs $5. Customers are standing in a queue to buy from you and order one at a time (in the order specified by bills). Each customer will only buy one lemonade and pay with either a $5, $10, or $20 bill. You must provide the correct change to each customer such that the net transaction is that the customer pays $5.
+
+Note that you do not have any change in hand at first.
+
+Return true if you can provide every customer with the correct change, or false otherwise.
+
+Example 1:
+Input: bills = [5,5,5,10,20]
+Output: true
+
+Example 2:
+Input: bills = [5,5,10,10,20]
+Output: false
+
+Constraints:
+- 1 <= bills.length <= 10^5
+- bills[i] is either 5, 10, or 20.`,
     solution: `def lemonadeChange(bills):
     five = ten = 0
     for b in bills:
@@ -1815,7 +2732,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 62, num: 896, title: "Monotonic Array", topic: ["Array"], mostAsked: false,
     askCount: 3100,
-    problem: `Return true if an array is monotonic (either all non-increasing or all non-decreasing).`,
+    problem: `An array is monotonic if it is either monotone increasing or monotone decreasing.
+
+An array nums is monotone increasing if for all i <= j, nums[i] <= nums[j]. An array nums is monotone decreasing if for all i <= j, nums[i] >= nums[j].
+
+Given an integer array nums, return true if the given array is monotonic, or false otherwise.
+
+Example 1:
+Input: nums = [1,2,2,3]
+Output: true
+
+Example 2:
+Input: nums = [6,5,4,4]
+Output: true
+
+Example 3:
+Input: nums = [1,3,2]
+Output: false
+
+Constraints:
+- 1 <= nums.length <= 10^5
+- -10^5 <= nums[i] <= 10^5`,
     solution: `def isMonotonic(nums):
     inc = dec = True
     for i in range(len(nums) - 1):
@@ -1837,7 +2774,22 @@ def mergeTwoLists(l1, l2):
   {
     id: 63, num: 905, title: "Sort Array By Parity", topic: ["Array", "Two Pointers"], mostAsked: true,
     askCount: 4600,
-    problem: `Move all even integers to the front of the array followed by all odd integers.\n\nExample:\nInput: [3,1,2,4] → Output: [2,4,3,1]`,
+    problem: `Given an integer array nums, move all the even integers at the beginning of the array followed by all the odd integers.
+
+Return any array that satisfies this condition.
+
+Example 1:
+Input: nums = [3,1,2,4]
+Output: [2,4,3,1]
+Explanation: [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+
+Example 2:
+Input: nums = [0]
+Output: [0]
+
+Constraints:
+- 1 <= nums.length <= 5000
+- 0 <= nums[i] <= 5000`,
     solution: `def sortArrayByParity(nums):
     l, r = 0, len(nums) - 1
     while l < r:
@@ -1861,7 +2813,26 @@ def mergeTwoLists(l1, l2):
   {
     id: 64, num: 929, title: "Unique Email Addresses", topic: ["Array", "Hash Table", "String"], mostAsked: false,
     askCount: 2900,
-    problem: `Calculate number of unique email addresses. Rules: '.' in local name is ignored, everything after '+' in local name is ignored.\n\nExample:\nInput: ["test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com"] → Output: 1 ("testemail@leetcode.com")`,
+    problem: `Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.
+
+- If you add periods '.' between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name.
+- If you add a plus '+' in the local name, everything after the first plus sign will be ignored.
+
+Given an array of strings emails where we send one email to each emails[i], return the number of different addresses that actually receive mails.
+
+Example 1:
+Input: emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+Output: 2
+Explanation: "testemail@leetcode.com" and "testemail@lee.tcode.com" actually receive mails.
+
+Example 2:
+Input: emails = ["a@leetcode.com","b@leetcode.com","c@leetcode.com"]
+Output: 3
+
+Constraints:
+- 1 <= emails.length <= 100
+- 1 <= emails[i].length <= 100
+- emails[i] consist of lowercase English letters, '+', '.' and '@'.`,
     solution: `def numUniqueEmails(emails):
     unique = set()
     for e in emails:
@@ -1884,7 +2855,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 65, num: 933, title: "Number of Recent Calls", topic: ["Design", "Queue"], mostAsked: true,
     askCount: 4200,
-    problem: `Design a class to count requests in the last 3000ms.\n\nExample:\nping(1), ping(100), ping(3001) → 3\nping(3002) → 3 (requests at [100, 3001, 3002])`,
+    problem: `You have a RecentCounter class which counts the number of recent requests within a certain time frame.
+
+Implement the RecentCounter class:
+- RecentCounter() Initializes the counter with zero recent requests.
+- int ping(int t) Adds a new request at time t, where t represents some time in milliseconds, and returns the number of requests that has happened in the past 3000 milliseconds (including the new request). Specifically, return the number of requests that have happened in the inclusive range [t - 3000, t].
+
+Example 1:
+Input:
+["RecentCounter", "ping", "ping", "ping", "ping"]
+[[], [1], [100], [3001], [3002]]
+Output:
+[null, 1, 2, 3, 3]
+
+Constraints:
+- 1 <= t <= 10^9
+- Each test case will call ping with strictly increasing values of t.
+- At most 10^4 calls will be made to ping.`,
     solution: `class RecentCounter:
     def __init__(self):
         self.q = collections.deque()
@@ -1909,7 +2896,23 @@ def mergeTwoLists(l1, l2):
   {
     id: 66, num: 938, title: "Range Sum of BST", topic: ["Tree", "Binary Search Tree", "DFS"], mostAsked: true,
     askCount: 5400,
-    problem: `Given root of a BST and range [low, high], return sum of values of all nodes in that range.\n\nExample:\nInput: [10,5,15,3,7,null,18], low=7, high=15 → Output: 32 (7+10+15)`,
+    problem: `Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].
+
+Example 1:
+Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
+Output: 32
+Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+
+Example 2:
+Input: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+Output: 23
+Explanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+
+Constraints:
+- The number of nodes in the tree is in the range [1, 2 * 10^4].
+- 1 <= Node.val <= 10^5
+- 1 <= low <= high <= 10^5
+- All Node.val are unique.`,
     solution: `def rangeSumBST(root, low, high):
     self.sum = 0
     def dfs(node):
@@ -1937,7 +2940,29 @@ def mergeTwoLists(l1, l2):
   {
     id: 67, num: 941, title: "Valid Mountain Array", topic: ["Array"], mostAsked: false,
     askCount: 3300,
-    problem: `Array is mountain if it strictly increases then strictly decreases. Must be length >= 3.\n\nExample:\nInput: [0,3,2,1] → true\nInput: [3,5,5] → false`,
+    problem: `Given an array of integers arr, return true if and only if it is a valid mountain array.
+
+Recall that arr is a mountain array if and only if:
+- arr.length >= 3
+- There exists some i with 0 < i < arr.length - 1 such that:
+  - arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
+  - arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
+
+Example 1:
+Input: arr = [2,1]
+Output: false
+
+Example 2:
+Input: arr = [3,5,5]
+Output: false
+
+Example 3:
+Input: arr = [0,3,2,1]
+Output: true
+
+Constraints:
+- 1 <= arr.length <= 10^4
+- 0 <= arr[i] <= 10^4`,
     solution: `def validMountainArray(arr):
     n = len(arr)
     if n < 3: return False
@@ -1963,7 +2988,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 68, num: 942, title: "DI String Match", topic: ["Array", "Two Pointers", "String", "Greedy"], mostAsked: false,
     askCount: 2700,
-    problem: `Given string s of 'I' (increase) or 'D' (decrease), return a permutation of [0...len(s)] that matches the pattern.\n\nExample:\nInput: "IDID" → Output: [0,4,1,3,2]`,
+    problem: `A permutation perm of n + 1 integers of all the integers in the range [0, n] can be represented as a string s of length n where:
+- s[i] == 'I' if perm[i] < perm[i + 1]
+- s[i] == 'D' if perm[i] > perm[i + 1]
+
+Given a string s, reconstruct the permutation perm and return it. If there are multiple valid permutations perm, return any of them.
+
+Example 1:
+Input: s = "IDID"
+Output: [0,4,1,3,2]
+
+Example 2:
+Input: s = "III"
+Output: [0,1,2,3]
+
+Example 3:
+Input: s = "DDI"
+Output: [3,2,0,1]
+
+Constraints:
+- 1 <= s.length <= 10^5
+- s[i] is either 'I' or 'D'.`,
     solution: `def diStringMatch(s):
     l, r = 0, len(s)
     res = []
@@ -2013,7 +3058,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 70, num: 953, title: "Verifying an Alien Dictionary", topic: ["Array", "Hash Table", "String"], mostAsked: true,
     askCount: 4800,
-    problem: `Given order of alien alphabet, check if list of words is sorted.\n\nExample:\nInput: words=["hello","leetcode"], order="habc..." → Output: true (h comes before l)`,
+    problem: `In an alien language, surprisingly, they also use English lowercase letters, but possibly in a different order. The order of the alphabet is some permutation of lowercase letters.
+
+Given a list of words written in the alien language, and the order of the alphabet, return true if and only if the given words are sorted lexicographically in this alien language.
+
+Example 1:
+Input: words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+Output: true
+
+Example 2:
+Input: words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+Output: false
+
+Example 3:
+Input: words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
+Output: false
+
+Constraints:
+- 1 <= words.length <= 100
+- 1 <= words[i].length <= 20
+- order.length == 26
+- All characters in words[i] and order are English lowercase letters.`,
     solution: `def isAlienSorted(words, order):
     order_map = {c: i for i, c in enumerate(order)}
     for i in range(len(words) - 1):
@@ -2040,7 +3105,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 71, num: 961, title: "N-Repeated Element in Size 2N Array", topic: ["Array", "Hash Table"], mostAsked: false,
     askCount: 2600,
-    problem: `In an array of size 2N, there are N+1 unique elements. One element is repeated N times. Find it.\n\nExample:\nInput: [1,2,3,3] → Output: 3`,
+    problem: `In a array nums of size 2N, there are n + 1 unique elements, and exactly one of these elements is repeated n times.
+
+Return the element repeated n times.
+
+Example 1:
+Input: nums = [1,2,3,3]
+Output: 3
+
+Example 2:
+Input: nums = [2,1,2,5,3,2]
+Output: 2
+
+Example 3:
+Input: nums = [5,1,5,2,5,3,5,4]
+Output: 5
+
+Constraints:
+- 2 <= n <= 5000
+- nums.length == 2 * n
+- 0 <= nums[i] <= 10^4
+- nums contains n + 1 unique elements and one of them is repeated exactly n times.`,
     solution: `def repeatedNTimes(nums):
     seen = set()
     for x in nums:
@@ -2062,7 +3147,21 @@ def mergeTwoLists(l1, l2):
   {
     id: 72, num: 965, title: "Univalued Binary Tree", topic: ["Tree", "DFS"], mostAsked: false,
     askCount: 2800,
-    problem: `Return true if every node in the binary tree has the same value.`,
+    problem: `A binary tree is uni-valued if every node in the tree has the same value.
+
+Given the root of a binary tree, return true if the given tree is uni-valued, or false otherwise.
+
+Example 1:
+Input: root = [1,1,1,1,1,null,1]
+Output: true
+
+Example 2:
+Input: root = [2,2,2,5,2]
+Output: false
+
+Constraints:
+- The number of nodes in the tree is in the range [1, 100].
+- 0 <= Node.val <= 99`,
     solution: `def isUnivalTree(root):
     val = root.val
     def dfs(node):
@@ -2113,7 +3212,27 @@ def mergeTwoLists(l1, l2):
   {
     id: 74, num: 985, title: "Sum of Even Numbers After Queries", topic: ["Array"], mostAsked: false,
     askCount: 2100,
-    problem: `For each query [val, index], modify nums[index] and return sum of all even numbers.\n\nExample:\nInput: nums=[1,2,3,4], query=[1,0] → Modify nums[0]=1+1=2. Sum of evens: 2+2+4=8.`,
+    problem: `You are given an integer array nums and a 2D array queries where queries[i] = [vali, indexi].
+
+For each query i, first apply nums[indexi] = nums[indexi] + vali, then print the sum of the even values of nums.
+
+Return an integer array answer where answer[i] is the answer to the ith query.
+
+Example 1:
+Input: nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]
+Output: [8,6,2,4]
+Explanation: At the beginning, the array is [1,2,3,4].
+After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.
+After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.
+After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.
+After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -10^4 <= nums[i] <= 10^4
+- 1 <= queries.length <= 10^4
+- -10^4 <= vali <= 10^4
+- 0 <= indexi < nums.length`,
     solution: `def sumEvenAfterQueries(nums, queries):
     S = sum(x for x in nums if x % 2 == 0)
     res = []
@@ -2138,7 +3257,28 @@ def mergeTwoLists(l1, l2):
   {
     id: 75, num: 989, title: "Add to Array-Form of Integer", topic: ["Array", "Math"], mostAsked: false,
     askCount: 2800,
-    problem: `Add integer k to number represented by array digits.\n\nExample:\nInput: [1,2,0,0], k=34 → Output: [1,2,3,4] (1200+34=1234)`,
+    problem: `The array-form of an integer num is an array representing its digits in left to right order.
+
+For example, for num = 1321, the array form is [1,3,2,1].
+Given num, the array-form of an integer, and an integer k, return the array-form of the integer num + k.
+
+Example 1:
+Input: num = [1,2,0,0], k = 34
+Output: [1,2,3,4]
+
+Example 2:
+Input: num = [2,7,4], k = 181
+Output: [4,5,5]
+
+Example 3:
+Input: num = [2,1,5], k = 806
+Output: [1,0,2,1]
+
+Constraints:
+- 1 <= num.length <= 10^4
+- 0 <= num[i] <= 9
+- num does not contain any leading zeros, except for the zero itself.
+- 1 <= k <= 10^4`,
     solution: `def addToArrayForm(num, k):
     res = []
     i = len(num) - 1
@@ -2164,7 +3304,28 @@ def mergeTwoLists(l1, l2):
   {
     id: 76, num: 993, title: "Cousins in Binary Tree", topic: ["Tree", "BFS"], mostAsked: true,
     askCount: 3500,
-    problem: `Two nodes are cousins if they have same depth but different parents.\n\nExample:\nInput: [1,2,3,4], x=4, y=3 → Output: false (depths match, but 4 is under 2, 3 is under 1)`,
+    problem: `In a binary tree, the root node is at depth 0, and children of each depth k node are at depth k+1.
+
+Two nodes of a binary tree are cousins if they have the same depth, but have different parents.
+
+We are given the root of a binary tree with unique values, and the values x and y of two different nodes in the tree.
+
+Return true if and only if the nodes corresponding to the values x and y are cousins.
+
+Example 1:
+Input: root = [1,2,3,4], x = 4, y = 3
+Output: false
+
+Example 2:
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+Output: true
+
+Constraints:
+- The number of nodes in the tree is in the range [2, 100].
+- 1 <= Node.val <= 100
+- Each node has a unique value.
+- x != y
+- x and y are values of nodes in the tree.`,
     solution: `def isCousins(root, x, y):
     res = [] # store (parent, depth)
     def dfs(node, p, d):
@@ -2190,7 +3351,36 @@ def mergeTwoLists(l1, l2):
   {
     id: 77, num: 997, title: "Find the Town Judge", topic: ["Array", "Hash Table", "Graph"], mostAsked: true,
     askCount: 4300,
-    problem: `A town judge is trusted by everyone else (N-1 people), but trust NO ONE. Find the judge if they exist.\n\nExample:\nInput: n=3, trust=[[1,3],[2,3]] → Output: 3`,
+    problem: `In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+
+If the town judge exists, then:
+1. The town judge trusts nobody.
+2. Everybody (except for the town judge) trusts the town judge.
+3. There is exactly one person that satisfies properties 1 and 2.
+
+You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi. If a trust relationship does not exist in trust array, then such a trust relationship does not exist.
+
+Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+
+Example 1:
+Input: n = 2, trust = [[1,2]]
+Output: 2
+
+Example 2:
+Input: n = 3, trust = [[1,3],[2,3]]
+Output: 3
+
+Example 3:
+Input: n = 3, trust = [[1,3],[2,3],[3,1]]
+Output: -1
+
+Constraints:
+- 1 <= n <= 1000
+- 0 <= trust.length <= 10^4
+- trust[i].length == 2
+- All the pairs of trust are unique.
+- ai != bi
+- 1 <= ai, bi <= n`,
     solution: `def findJudge(n, trust):
     scores = [0] * (n + 1)
     for a, b in trust:
@@ -2215,7 +3405,20 @@ def mergeTwoLists(l1, l2):
   {
     id: 78, num: 1002, title: "Find Common Characters", topic: ["Array", "Hash Table", "String"], mostAsked: false,
     askCount: 2900,
-    problem: `Given string array, return list of all characters that show up in EVERY string (including duplicates).\n\nExample:\nInput: ["bella","label","roller"] → Output: ["e","l","l"]`,
+    problem: `Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
+
+Example 1:
+Input: words = ["bella","label","roller"]
+Output: ["e","l","l"]
+
+Example 2:
+Input: words = ["cool","lock","cook"]
+Output: ["c","o"]
+
+Constraints:
+- 1 <= words.length <= 100
+- 1 <= words[i].length <= 100
+- words[i] consists of lowercase English letters.`,
     solution: `def commonChars(words):
     res = collections.Counter(words[0])
     for w in words[1:]:
@@ -2236,7 +3439,31 @@ def mergeTwoLists(l1, l2):
   {
     id: 79, num: 1005, title: "Maximize Sum Of Array After K Negations", topic: ["Array", "Greedy", "Sorting"], mostAsked: false,
     askCount: 2400,
-    problem: `Negate array elements K times to maximize final sum.\n\nExample:\nInput: [4,2,3], k=1 → Output: 5 (-2,4,3 is 5)\nInput: [3,-1,0,2], k=3 → Output: 6 (-1 becomes 1, then -0 or same min)`,
+    problem: `You are given an integer array nums and an integer k. You should modify the array in the following way:
+- choose an index i and replace nums[i] with -nums[i].
+- you should apply this process exactly k times. You may choose the same index i multiple times.
+
+Return the largest possible sum of the array after modifying it in this way.
+
+Example 1:
+Input: nums = [4,2,3], k = 1
+Output: 5
+Explanation: Choose index 1 and nums becomes [4,-2,3].
+
+Example 2:
+Input: nums = [3,-1,0,2], k = 3
+Output: 6
+Explanation: Choose index 1, 1, 1 and nums becomes [3,1,0,2].
+
+Example 3:
+Input: nums = [2,-3,-1,5,-4], k = 2
+Output: 13
+Explanation: Choose indices 1 and 4 and nums becomes [2,3,-1,5,4].
+
+Constraints:
+- 1 <= nums.length <= 10^4
+- -100 <= nums[i] <= 100
+- 1 <= k <= 10^4`,
     solution: `def largestSumAfterKNegations(nums, k):
     nums.sort()
     for i in range(len(nums)):
@@ -2262,7 +3489,28 @@ def mergeTwoLists(l1, l2):
   {
     id: 80, num: 1009, title: "Complement of Base 10 Integer", topic: ["Math", "Bit Manipulation"], mostAsked: false,
     askCount: 2200,
-    problem: `Return the bit-complement of an integer (flip all 1s to 0 and 0s to 1).\n\nExample:\nInput: 5 (101) → Output: 2 (010)`,
+    problem: `The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+Given an integer n, return its complement.
+
+Example 1:
+Input: n = 5
+Output: 2
+Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2.
+
+Example 2:
+Input: n = 7
+Output: 0
+Explanation: 7 is "111" in binary, with complement "000" in binary, which is 0.
+
+Example 3:
+Input: n = 10
+Output: 5
+Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is 5.
+
+Constraints:
+- 0 <= n < 10^9`,
     solution: `def bitwiseComplement(n):
     if n == 0: return 1
     # Find number of bits
@@ -2302,6 +3550,7 @@ export default function App() {
     try { return new Set(JSON.parse(localStorage.getItem("solved") || "[]")); }
     catch { return new Set(); }
   });
+  const [apiKey, setApiKey] = useState(localStorage.getItem("gemini_api_key") || "");
 
   const saveSolved = (s) => {
     try { localStorage.setItem("solved", JSON.stringify([...s])); } catch {}
@@ -2333,21 +3582,36 @@ export default function App() {
   }, [filter, selectedCompany]);
 
   const askAI = async (prompt) => {
+    if (!apiKey) {
+      setAiAnswer("Please set your Gemini API key in the 'AI Config' section first.");
+      return;
+    }
     setAiLoading(true);
     setAiAnswer("");
     try {
-      const r = await fetch("https://api.anthropic.com/v1/messages", {
+      const r = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          messages: [{ role: "user", content: `You are a helpful coding mentor for a beginner Python learner. Explain in simple, friendly language. Question context: "${selectedQ?.title}" - ${selectedQ?.problem}\n\nUser question: ${prompt}` }]
+          contents: [{
+            parts: [{ text: `You are a helpful coding mentor for a beginner Python learner. Explain in simple, friendly language.
+Problem: ${selectedQ?.title}
+Description: ${selectedQ?.problem}
+Solution being discussed: ${selectedQ?.solution}
+
+User question: ${prompt}` }]
+          }]
         })
       });
       const data = await r.json();
-      setAiAnswer(data.content?.[0]?.text || "Sorry, couldn't get an answer.");
-    } catch { setAiAnswer("Error fetching answer. Please try again."); }
+      if (data.error) {
+        setAiAnswer(`Error: ${data.error.message || "Invalid API key or request"}`);
+      } else {
+        setAiAnswer(data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.");
+      }
+    } catch (err) {
+      setAiAnswer("Connection error. Check your internet or API key.");
+    }
     setAiLoading(false);
   };
 
@@ -2381,7 +3645,10 @@ export default function App() {
     topicTag: (t) => ({ fontSize: 11, padding: "3px 8px", borderRadius: 4, background: "#1e2d4a", color: "#64748b", border: "1px solid #1e3352" }),
     hotBadge: { fontSize: 10, padding: "2px 7px", borderRadius: 4, background: "#ff450020", color: "#ff6b6b", border: "1px solid #ff450040" },
     checkBtn: (solved) => ({ width: 24, height: 24, borderRadius: 6, border: `1px solid ${solved ? "#00d4ff" : "#334155"}`, background: solved ? "#00d4ff22" : "transparent", color: solved ? "#00d4ff" : "#64748b", fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }),
-    detailWrap: { maxWidth: 900, margin: "0 auto", padding: "0 24px 60px" },
+    detailWrap: { maxWidth: 1400, margin: "0 auto", padding: "0 24px 60px" },
+    detailLayout: { display: "flex", gap: 24, marginTop: 24, alignItems: "flex-start" },
+    leftCol: { flex: "1", minWidth: 0, position: "sticky", top: 84 },
+    rightCol: { flex: "1", minWidth: 0 },
     backBtn: { background: "transparent", border: "1px solid #1e2d4a", color: "#94a3b8", padding: "8px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13, marginBottom: 20, fontFamily: "inherit" },
     detailHeader: { background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 12, padding: "24px", marginBottom: 20 },
     detailNum: { fontSize: 13, color: "#64748b" },
@@ -2417,6 +3684,7 @@ export default function App() {
         <div style={{ display: "flex", gap: 8 }}>
           <button style={styles.navBtn(false)} onClick={() => setView("list")}>Problems</button>
           <button style={styles.navBtn(false)} onClick={() => setView("companies")}>Companies</button>
+          <button style={styles.navBtn(false)} onClick={() => setView("settings")}>AI Config</button>
         </div>
       </nav>
       <div style={styles.hero}>
@@ -2481,6 +3749,7 @@ export default function App() {
         <div style={{ display: "flex", gap: 8 }}>
           <button style={styles.navBtn(false)} onClick={() => setView("list")}>Problems</button>
           <button style={styles.navBtn(true)}>Companies</button>
+          <button style={styles.navBtn(false)} onClick={() => setView("settings")}>AI Config</button>
         </div>
       </nav>
       <div style={styles.section}>
@@ -2516,6 +3785,7 @@ export default function App() {
         <div style={{ display: "flex", gap: 8 }}>
           <button style={styles.navBtn(true)}>Problems</button>
           <button style={styles.navBtn(false)} onClick={() => setView("companies")}>Companies</button>
+          <button style={styles.navBtn(false)} onClick={() => setView("settings")}>AI Config</button>
         </div>
       </nav>
       <div style={styles.section}>
@@ -2578,108 +3848,160 @@ export default function App() {
           <div style={{ display: "flex", gap: 8 }}>
             <button style={styles.navBtn(false)} onClick={() => setView("list")}>Problems</button>
             <button style={styles.navBtn(false)} onClick={() => setView("companies")}>Companies</button>
+            <button style={styles.navBtn(false)} onClick={() => setView("settings")}>AI Config</button>
           </div>
         </nav>
         <div style={styles.detailWrap}>
           <div style={{ paddingTop: 24 }}>
             <button style={styles.backBtn} onClick={() => setView("list")}>← Back to Problems</button>
-            <div style={styles.detailHeader}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
-                <div>
-                  <div style={styles.detailNum}>Problem #{q.num}</div>
-                  <h1 style={styles.detailTitle}>{q.title}</h1>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
-                    <span style={styles.badge("#22c55e")}>Easy</span>
-                    {q.mostAsked && <span style={styles.badge("#ef4444")}>🔥 Most Asked</span>}
-                    {q.topic.map(t => <span key={t} style={styles.badge("#0090ff")}>{t}</span>)}
-                    <span style={{ fontSize: 12, color: "#64748b", marginLeft: 4 }}>~{(q.askCount/1000).toFixed(1)}k asks</span>
+            <div style={styles.detailLayout}>
+              <div style={styles.leftCol}>
+                <div style={styles.detailHeader}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
+                    <div>
+                      <div style={styles.detailNum}>Problem #{q.num}</div>
+                      <h1 style={styles.detailTitle}>{q.title}</h1>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+                        <span style={styles.badge("#22c55e")}>Easy</span>
+                        {q.mostAsked && <span style={styles.badge("#ef4444")}>🔥 Most Asked</span>}
+                        {q.topic.map(t => <span key={t} style={styles.badge("#0090ff")}>{t}</span>)}
+                        <span style={{ fontSize: 12, color: "#64748b", marginLeft: 4 }}>~{(q.askCount / 1000).toFixed(1)}k asks</span>
+                      </div>
+                    </div>
+                    <button style={{ ...styles.checkBtn(solvedSet.has(q.id)), width: "auto", padding: "8px 16px", fontSize: 13 }} onClick={() => toggleSolved(q.id)}>
+                      {solvedSet.has(q.id) ? "✓ Solved" : "Mark Solved"}
+                    </button>
+                  </div>
+                  <div style={styles.problemBox}>{q.problem}</div>
+                </div>
+              </div>
+
+              <div style={styles.rightCol}>
+                <div style={styles.card}>
+                  <div style={styles.cardTitle}>🐍 Python Solution</div>
+                  <div style={styles.codeBlock}>{q.solution}</div>
+                  <div style={styles.complexityRow}>
+                    <span style={styles.complexityBadge("#22c55e")}>⏱ Time: {q.timeComplexity}</span>
+                    <span style={styles.complexityBadge("#0090ff")}>💾 Space: {q.spaceComplexity}</span>
                   </div>
                 </div>
-                <button style={{ ...styles.checkBtn(solvedSet.has(q.id)), width: "auto", padding: "8px 16px", fontSize: 13 }} onClick={() => toggleSolved(q.id)}>
-                  {solvedSet.has(q.id) ? "✓ Solved" : "Mark Solved"}
-                </button>
-              </div>
-              <div style={styles.problemBox}>{q.problem}</div>
-            </div>
 
-            <div style={styles.card}>
-              <div style={styles.cardTitle}>🐍 Python Solution</div>
-              <div style={styles.codeBlock}>{q.solution}</div>
-              <div style={styles.complexityRow}>
-                <span style={styles.complexityBadge("#22c55e")}>⏱ Time: {q.timeComplexity}</span>
-                <span style={styles.complexityBadge("#0090ff")}>💾 Space: {q.spaceComplexity}</span>
-              </div>
-            </div>
+                <div style={styles.tabRow}>
+                  {["explain", "related", "ai"].map(t => (
+                    <button key={t} style={styles.tabBtn(tab === t)} onClick={() => setTab(t)}>
+                      {t === "explain" ? "📚 Deep Dive" : t === "related" ? "🔗 Related" : "🤖 Ask AI"}
+                    </button>
+                  ))}
+                </div>
 
-            <div style={styles.tabRow}>
-              {["explain", "related", "ai"].map(t => (
-                <button key={t} style={styles.tabBtn(tab === t)} onClick={() => setTab(t)}>
-                  {t === "explain" ? "📚 Deep Dive" : t === "related" ? "🔗 Related" : "🤖 Ask AI"}
-                </button>
-              ))}
-            </div>
-
-            {tab === "explain" && (
-              <div>
-                <div style={styles.card}>
-                  <div style={styles.cardTitle}>💡 Why This Approach?</div>
-                  <p style={styles.explainText}>{q.whyMethod}</p>
-                </div>
-                <div style={styles.card}>
-                  <div style={styles.cardTitle}>🔄 How It Works (Step by Step)</div>
-                  <p style={styles.explainText}>{q.howMethod}</p>
-                </div>
-                <div style={styles.card}>
-                  <div style={styles.cardTitle}>❓ Why Use This Function/Method?</div>
-                  <p style={styles.explainText}>{q.whyFunction}</p>
-                </div>
-                <div style={styles.card}>
-                  <div style={styles.cardTitle}>⚙️ How Does This Function Work?</div>
-                  <p style={styles.explainText}>{q.howFunction}</p>
-                </div>
-                <div style={styles.card}>
-                  <div style={styles.cardTitle}>📊 Complexity Analysis</div>
-                  <p style={styles.explainText}>
-                    <span style={styles.highlight}>Time Complexity: {q.timeComplexity}</span> — {q.timeComplexity === "O(1)" ? "Constant time, fastest possible!" : q.timeComplexity === "O(n)" ? "Linear time — we visit each element once." : q.timeComplexity === "O(log n)" ? "Logarithmic time — we halve the search space each step." : "Polynomial time — multiple passes through the data."}<br/><br/>
-                    <span style={styles.highlight}>Space Complexity: {q.spaceComplexity}</span> — {q.spaceComplexity.includes("1") ? "Constant space — no extra memory proportional to input." : "Extra memory used proportional to input size."}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {tab === "related" && q.relatedQ && (
-              <div>
-                <div style={styles.relatedCard}>
-                  <div style={styles.relatedTitle}>🔗 {q.relatedQ.title}</div>
-                  <div style={{ fontSize: 13, color: "#64748b", marginBottom: 16, lineHeight: 1.7 }}>{q.relatedQ.problem}</div>
-                  <div style={styles.cardTitle}>Solution:</div>
-                  <div style={styles.codeBlock}>{q.relatedQ.solution}</div>
-                  <div style={{ marginTop: 14 }}>
-                    <div style={styles.cardTitle}>💡 Why is this related?</div>
-                    <p style={styles.explainText}>{q.relatedQ.why}</p>
+                {tab === "explain" && (
+                  <div>
+                    <div style={styles.card}>
+                      <div style={styles.cardTitle}>💡 Why This Approach?</div>
+                      <p style={styles.explainText}>{q.whyMethod}</p>
+                    </div>
+                    <div style={styles.card}>
+                      <div style={styles.cardTitle}>🔄 How It Works (Step by Step)</div>
+                      <p style={styles.explainText}>{q.howMethod}</p>
+                    </div>
+                    <div style={styles.card}>
+                      <div style={styles.cardTitle}>❓ Why Use This Function/Method?</div>
+                      <p style={styles.explainText}>{q.whyFunction}</p>
+                    </div>
+                    <div style={styles.card}>
+                      <div style={styles.cardTitle}>⚙️ How Does This Function Work?</div>
+                      <p style={styles.explainText}>{q.howFunction}</p>
+                    </div>
+                    <div style={styles.card}>
+                      <div style={styles.cardTitle}>📊 Complexity Analysis</div>
+                      <p style={styles.explainText}>
+                        <span style={styles.highlight}>Time Complexity: {q.timeComplexity}</span> — {q.timeComplexity === "O(1)" ? "Constant time, fastest possible!" : q.timeComplexity === "O(n)" ? "Linear time — we visit each element once." : q.timeComplexity === "O(log n)" ? "Logarithmic time — we halve the search space each step." : "Polynomial time — multiple passes through the data."}<br /><br />
+                        <span style={styles.highlight}>Space Complexity: {q.spaceComplexity}</span> — {q.spaceComplexity.includes("1") ? "Constant space — no extra memory proportional to input." : "Extra memory used proportional to input size."}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                )}
 
-            {tab === "ai" && (
-              <div>
-                <div style={styles.aiBox}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#00d4ff", marginBottom: 8 }}>🤖 Ask AI Tutor</div>
-                  <div style={{ fontSize: 13, color: "#64748b", marginBottom: 12 }}>Got stuck? Ask anything about this problem in plain English!</div>
-                  <textarea style={styles.aiInput} placeholder="e.g. Why do we use a dictionary here? What is XOR? Can you give me another example?" value={userQuestion} onChange={e => setUserQuestion(e.target.value)} />
-                  <button style={{ ...styles.aiSubmit, opacity: aiLoading ? 0.6 : 1 }} onClick={() => { if (userQuestion.trim()) askAI(userQuestion); }} disabled={aiLoading}>
-                    {aiLoading ? "Thinking..." : "Ask →"}
-                  </button>
-                  {aiAnswer && <div style={styles.aiResponse}>{aiAnswer}</div>}
-                </div>
+                {tab === "related" && q.relatedQ && (
+                  <div>
+                    <div style={styles.relatedCard}>
+                      <div style={styles.relatedTitle}>🔗 {q.relatedQ.title}</div>
+                      <div style={{ fontSize: 13, color: "#64748b", marginBottom: 16, lineHeight: 1.7 }}>{q.relatedQ.problem}</div>
+                      <div style={styles.cardTitle}>Solution:</div>
+                      <div style={styles.codeBlock}>{q.relatedQ.solution}</div>
+                      <div style={{ marginTop: 14 }}>
+                        <div style={styles.cardTitle}>💡 Why is this related?</div>
+                        <p style={styles.explainText}>{q.relatedQ.why}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {tab === "ai" && (
+                  <div>
+                    <div style={styles.aiBox}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "#00d4ff", marginBottom: 8 }}>🤖 Ask AI Tutor</div>
+                      <div style={{ fontSize: 13, color: "#64748b", marginBottom: 12 }}>Got stuck? Ask anything about this problem in plain English!</div>
+                      <textarea style={styles.aiInput} placeholder="e.g. Why do we use a dictionary here? What is XOR? Can you give me another example?" value={userQuestion} onChange={e => setUserQuestion(e.target.value)} />
+                      <button style={{ ...styles.aiSubmit, opacity: aiLoading ? 0.6 : 1 }} onClick={() => { if (userQuestion.trim()) askAI(userQuestion); }} disabled={aiLoading}>
+                        {aiLoading ? "Thinking..." : "Ask →"}
+                      </button>
+                      {aiAnswer && <div style={styles.aiResponse}>{aiAnswer}</div>}
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
     );
   }
+
+  // ── SETTINGS PAGE ──
+  if (view === "settings") return (
+    <div style={styles.app}>
+      <nav style={styles.nav}>
+        <span style={styles.logo} onClick={() => setView("home")}>⚡ PyLeet</span>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button style={styles.navBtn(false)} onClick={() => setView("list")}>Problems</button>
+          <button style={styles.navBtn(false)} onClick={() => setView("companies")}>Companies</button>
+          <button style={styles.navBtn(true)}>AI Config</button>
+        </div>
+      </nav>
+      <div style={styles.section}>
+        <div style={{ paddingTop: 60, maxWidth: 600, margin: "0 auto" }}>
+          <h2 style={{ fontSize: 32, fontWeight: 800, color: "#fff", marginBottom: 12 }}>AI Configuration</h2>
+          <p style={{ color: "#94a3b8", marginBottom: 32, lineHeight: 1.6 }}>PyLeet uses Google Gemini AI to provide real-time mentoring. Add your free API key from Google AI Studio to enable the 'Ask AI' features.</p>
+          
+          <div style={styles.card}>
+            <div style={{ ...styles.cardTitle, marginBottom: 16 }}>Google Gemini API Key</div>
+            <input 
+              type="password" 
+              style={{ ...styles.aiInput, minHeight: "auto", marginBottom: 16 }} 
+              placeholder="Paste your API key here..." 
+              value={apiKey} 
+              onChange={e => {
+                const val = e.target.value;
+                setApiKey(val);
+                localStorage.setItem("gemini_api_key", val);
+              }}
+            />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, background: "#060b14", padding: 12, borderRadius: 8, border: "1px solid #1e3352" }}>
+              <span style={{ fontSize: 20 }}>💡</span>
+              <span style={{ fontSize: 13, color: "#64748b" }}>
+                Don't have a key? Get one for free at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noreferrer" style={{ color: "#00d4ff", textDecoration: "none" }}>Google AI Studio</a>.
+              </span>
+            </div>
+          </div>
+          
+          <div style={{ marginTop: 24, textAlign: "center" }}>
+            <button style={styles.ctaBtn(true)} onClick={() => setView("list")}>Go Content Exploring →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return <div style={styles.app}><div style={{ padding: 40, textAlign: "center", color: "#94a3b8" }}>Loading...</div></div>;
 }
