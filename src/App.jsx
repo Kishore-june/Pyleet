@@ -1006,6 +1006,1281 @@ def mergeTwoLists(l1, l2):
     return nums`,
       why: "Two-pointer swap. Skip even on left, skip odd on right. When both are 'wrong side', swap them."
     }
+  },
+  {
+    id: 31, num: 67, title: "Add Binary", topic: ["Math", "String"], mostAsked: false,
+    askCount: 4100,
+    problem: `Given two binary strings a and b, return their sum as a binary string.\n\nExample:\nInput: a = "11", b = "1" → Output: "100"\nInput: a = "1010", b = "1011" → Output: "10101"`,
+    solution: `def addBinary(a, b):
+    res = []
+    carry = 0
+    i, j = len(a) - 1, len(b) - 1
+    
+    while i >= 0 or j >= 0 or carry:
+        total = carry
+        if i >= 0:
+            total += int(a[i])
+            i -= 1
+        if j >= 0:
+            total += int(b[j])
+            j -= 1
+        res.append(str(total % 2))
+        carry = total // 2
+        
+    return "".join(reversed(res))`,
+    whyMethod: "Standard elementary addition from right to left. We use a carry to handle sums that exceed 1 (since it's binary).",
+    howMethod: "Use two pointers starting at the ends of strings a and b. In each step, add the bits and the carry. Append the result bit (total % 2) and update carry (total // 2). Reverse the final list to get the string.",
+    whyFunction: "int(a[i]) converts the character digit to an integer. join(reversed(res)) is efficient for building the string in reverse order.",
+    howFunction: "total = 0+1+1=2 → res=['0'], carry=1. Next total=1+0+0=1 → res=['0','1'], carry=0. Final result '100'.",
+    timeComplexity: "O(max(N, M))", spaceComplexity: "O(max(N, M))",
+    relatedQ: {
+      title: "Add Two Numbers (LC #2) — Medium",
+      problem: "Add two numbers represented by linked lists.",
+      solution: "Similar carry logic but with linked list nodes.",
+      why: "Linked lists can be added node-by-node just like adding bits in a string."
+    }
+  },
+  {
+    id: 32, num: 69, title: "Sqrt(x)", topic: ["Math", "Binary Search"], mostAsked: false,
+    askCount: 4800,
+    problem: `Given a non-negative integer x, compute and return the square root of x rounded down to the nearest integer.\n\nExample:\nInput: x = 4 → Output: 2\nInput: x = 8 → Output: 2 (sqrt(8) is 2.828..., rounded down is 2)`,
+    solution: `def mySqrt(x):
+    if x < 2: return x
+    left, right = 2, x // 2
+    
+    while left <= right:
+        pivot = left + (right - left) // 2
+        num = pivot * pivot
+        if num > x: right = pivot - 1
+        elif num < x: left = pivot + 1
+        else: return pivot
+        
+    return right`,
+    whyMethod: "Binary Search is much faster than checking every number! Since the square root must be between 2 and x/2, we can quickly narrow it down.",
+    howMethod: "Start with a range [2, x/2]. Check the square of the middle number. Adjust the range until the pointers cross. The final 'right' pointer will be the integer square root.",
+    whyFunction: "pivot * pivot checks if we found the root or went too far. x // 2 is a safe upper bound for x >= 4.",
+    howFunction: "For x=8: left=2, right=4. pivot=3, 3*3=9 > 8 → right=2. Loop ends, return 2.",
+    timeComplexity: "O(log x)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Valid Perfect Square (LC #367)",
+      problem: "Check if a number is a perfect square without using sqrt().",
+      solution: "Same binary search logic, but return True if pivot*pivot == x.",
+      why: "The search pattern is identical — finding an integer k such that k*k = x."
+    }
+  },
+  {
+    id: 33, num: 70, title: "Climbing Stairs", topic: ["Math", "Dynamic Programming"], mostAsked: true,
+    askCount: 8900,
+    problem: `You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?\n\nExample:\nInput: n = 2 → Output: 2 (1+1, 2)\nInput: n = 3 → Output: 3 (1+1+1, 1+2, 2+1)`,
+    solution: `def climbStairs(n):
+    if n <= 2: return n
+    first, second = 1, 2
+    for i in range(3, n + 1):
+        third = first + second
+        first = second
+        second = third
+    return second`,
+    whyMethod: "This is the Fibonacci sequence! To reach step n, you must have come from either step n-1 (by taking 1 step) or step n-2 (by taking 2 steps).",
+    howMethod: "Store the number of ways to reach step 1 and step 2. For each higher step, the number of ways is the sum of the previous two steps. Slide these numbers forward until you reach n.",
+    whyFunction: "The recurrence Relation: ways(n) = ways(n-1) + ways(n-2). This is dynamic programming with space optimization.",
+    howFunction: "n=4: s1=1, s2=2. Step 3: ways=1+2=3. Step 4: ways=2+3=5. Return 5.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Min Cost Climbing Stairs (LC #746)",
+      problem: "You pay cost[i] to step on step i. Find minimum cost to reach top.",
+      solution: "dp[i] = cost[i] + min(dp[i-1], dp[i-2])",
+      why: "Exact same stair logic, but we track minimum cost instead of total ways."
+    }
+  },
+  {
+    id: 34, num: 94, title: "Binary Tree Inorder Traversal", topic: ["Stack", "Tree", "Depth-First Search"], mostAsked: false,
+    askCount: 5200,
+    problem: `Given the root of a binary tree, return the inorder traversal of its nodes' values.\n(Inorder: Left → Root → Right)\n\nExample:\nInput: [1,null,2,3] → Output: [1,3,2]`,
+    solution: `def inorderTraversal(root):
+    res = []
+    def dfs(node):
+        if not node: return
+        dfs(node.left)
+        res.append(node.val)
+        dfs(node.right)
+    dfs(root)
+    return res`,
+    whyMethod: "Recursion (DFS) is the most intuitive approach for tree traversals. Inorder visits the left subtree, then the current node, then the right subtree.",
+    howMethod: "Define a helper function that visits node.left first. Then append node.val to the result list. Finally visit node.right.",
+    whyFunction: "if not node: return is the base case to stop recursion at leaf nodes. Inorder ensures elements are visited in 'sorted' order for Binary Search Trees.",
+    howFunction: "Start at root. Go as far left as possible. Visit, then go right one step, and repeat.",
+    timeComplexity: "O(n)", spaceComplexity: "O(n)",
+    relatedQ: {
+      title: "Binary Tree Preorder Traversal (LC #144)",
+      problem: "Root → Left → Right traversal.",
+      solution: "Append node.val before DFS calls.",
+      why: "Preorder visits the root first, useful for creating a copy of the tree."
+    }
+  },
+  {
+    id: 35, num: 101, title: "Symmetric Tree", topic: ["Tree", "DFS", "BFS"], mostAsked: false,
+    askCount: 4900,
+    problem: `Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).\n\nExample:\nInput: [1,2,2,3,4,4,3] → Output: true\nInput: [1,2,2,null,3,null,3] → Output: false`,
+    solution: `def isSymmetric(root):
+    def isMirror(t1, t2):
+        if not t1 and not t2: return True
+        if not t1 or not t2: return False
+        return (t1.val == t2.val) and \
+               isMirror(t1.right, t2.left) and \
+               isMirror(t1.left, t2.right)
+    return isMirror(root, root)`,
+    whyMethod: "A tree is recursive; its symmetry depends on its subtrees being mirrors of each other. We compare two copies of the tree.",
+    howMethod: "Compare the left child of one side with the right child of the other side. Both values must match, and their children must also be mirror images.",
+    whyFunction: "isMirror(t1.right, t2.left) checks if the 'outer' branches match, and isMirror(t1.left, t2.right) checks the 'inner' branches.",
+    howFunction: "Mirror check: rootA.val==rootB.val AND rootA.left==rootB.right AND rootA.right==rootB.left.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Same Tree (LC #100)",
+      problem: "Check if two trees are identical.",
+      solution: "Same recursive comparison, but compare left-to-left and right-to-right.",
+      why: "Symmetry is just 'Identity' with a mirror swap on child comparisons."
+    }
+  },
+  {
+    id: 36, num: 112, title: "Path Sum", topic: ["Tree", "DFS"], mostAsked: false,
+    askCount: 4500,
+    problem: `Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.\n\nExample:\nInput: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22 → Output: true`,
+    solution: `def hasPathSum(root, targetSum):
+    if not root: return False
+    
+    targetSum -= root.val
+    if not root.left and not root.right:
+        return targetSum == 0
+        
+    return hasPathSum(root.left, targetSum) or \
+           hasPathSum(root.right, targetSum)`,
+    whyMethod: "DFS recursion! Subtract the current node's value from the remaining target. If you reach a leaf and the target is now zero, success!",
+    howMethod: "Subtract node value at each step. Check if the current node is a leaf (no children). If it is, compare targetSum to 0. Otherwise, recursively check left and right branches.",
+    whyFunction: "or operator means if ANY path matches, the whole result is true. 'if not root.left and not root.right' defines a leaf node.",
+    howFunction: "Root 5, skip 4, path to 7. Target 22→17→13. At 7, sum matches? No. Path continues to next leaf.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Path Sum II (LC #113) — Medium",
+      problem: "Return all root-to-leaf paths that sum to target.",
+      solution: "Same DFS but pass a current_path list and store it when target hits 0 at a leaf.",
+      why: "Extension of basic existence check to finding all actual paths."
+    }
+  },
+  {
+    id: 37, num: 118, title: "Pascal's Triangle", topic: ["Array", "Dynamic Programming"], mostAsked: false,
+    askCount: 5500,
+    problem: `Given an integer numRows, return the first numRows of Pascal's triangle.\n\nExample:\nInput: numRows = 5\nOutput: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`,
+    solution: `def generate(numRows):
+    res = [[1]]
+    for i in range(1, numRows):
+        row = [1]
+        for j in range(1, i):
+            row.append(res[i-1][j-1] + res[i-1][j])
+        row.append(1)
+        res.append(row)
+    return res`,
+    whyMethod: "Simple construction logic: each number is the sum of the two numbers directly above it. DP approach builds one row at a time based on the previous row.",
+    howMethod: "Start with [[1]]. For each new row, add a '1' at start, then calculate middle elements by adding res[last][j-1] + res[last][j], then add a '1' at the end.",
+    whyFunction: "The inner loop range(1, i) cleverly skips the first and last '1's of each row. res[i-1] access the row we just finished.",
+    howFunction: "Row 3: [1, (1+1), 1] → [1, 2, 1]. Row 4: [1, (1+2), (2+1), 1] → [1, 3, 3, 1].",
+    timeComplexity: "O(n²)", spaceComplexity: "O(n²)",
+    relatedQ: {
+      title: "Pascal's Triangle II (LC #119)",
+      problem: "Return only the k-th row.",
+      solution: "Maintain only two rows at a time (current and previous) to save space.",
+      why: "Same math, but saves memory if you only need one specific row."
+    }
+  },
+  {
+    id: 38, num: 125, title: "Valid Palindrome", topic: ["Two Pointers", "String"], mostAsked: true,
+    askCount: 8200,
+    problem: `A phrase is a palindrome if, after converting all uppercase letters into lowercase and removing all non-alphanumeric characters, it reads the same forward and backward.\n\nExample:\nInput: "A man, a plan, a canal: Panama" → Output: true\nInput: "race a car" → Output: false`,
+    solution: `def isPalindrome(s):
+    l, r = 0, len(s) - 1
+    while l < r:
+        if not s[l].isalnum(): l += 1
+        elif not s[r].isalnum(): r -= 1
+        else:
+            if s[l].lower() != s[r].lower():
+                return False
+            l += 1
+            r -= 1
+    return True`,
+    whyMethod: "Two Pointers! We compare characters from both ends moving inward. This is space-efficient because we don't create a 'cleaned' copy of the string.",
+    howMethod: "Use two pointers l and r. Skip non-alphanumeric characters. Compare lowercased characters. If they mismatch, it's not a palindrome. Stop when pointers meet.",
+    whyFunction: "isalnum() checks if a character is a letter or number. lower() makes the check case-insensitive. This saves the extra O(n) space of a filtered string.",
+    howFunction: " 'A man...' -> compare 'a' and 'a', skip ' ', compare 'm' and 'm'... pointers meet in the middle.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Valid Palindrome II (LC #680)",
+      problem: "Check palindrome with at most one character deletion.",
+      solution: "Two pointers, if mismatch, check if deleting one matches.",
+      why: "Same pointer logic with one 'branching' step upon first mismatch."
+    }
+  },
+  {
+    id: 39, num: 141, title: "Linked List Cycle", topic: ["Hash Table", "Linked List", "Two Pointers"], mostAsked: true,
+    askCount: 8800,
+    problem: `Given head, the head of a linked list, determine if the linked list has a cycle in it.\n\nExample:\nInput: head = [3,2,0,-4], pos = 1 (tail connects to node index 1) → Output: true`,
+    solution: `def hasCycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            return True
+    return False`,
+    whyMethod: "Floyd's Cycle-Finding Algorithm (Tortoise and Hare). If there is a cycle, the faster pointer will eventually lap the slower pointer and they will meet.",
+    howMethod: "Initialize two pointers at head. Move 'slow' one step and 'fast' two steps. If they ever point to the same node, return True. If 'fast' reaches the end (null), there's no cycle.",
+    whyFunction: "fast and fast.next check prevents errors when list has 0 or 1 nodes. Running at different speeds is the mathematical key to meeting in a loop.",
+    howFunction: "Like two runners on a circular track: the fast runner will eventually 'overlap' the slow runner from behind.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Linked List Cycle II (LC #142) — Medium",
+      problem: "Return the node where the cycle begins.",
+      solution: "After slow catches fast, move slow to head and move both at speed 1. They meet at entry.",
+      why: "Mathematical property of path distances in cycles."
+    }
+  },
+  {
+    id: 40, num: 202, title: "Happy Number", topic: ["Hash Table", "Math", "Two Pointers"], mostAsked: false,
+    askCount: 4700,
+    problem: `Write an algorithm to determine if a number n is happy.\n\nA happy number is a number where replacing it with the sum of the squares of its digits eventually leads to 1. If it loops endlessly in a cycle that does not include 1, it is not happy.\n\nExample:\nInput: n = 19 → Output: true (1²+9²=82, 8²+2²=68, 6²+8²=100, 1²+0²+0²=1)`,
+    solution: `def isHappy(n):
+    seen = set()
+    while n != 1 and n not in seen:
+        seen.add(n)
+        n = sum(int(digit)**2 for digit in str(n))
+    return n == 1`,
+    whyMethod: "Hash Set to detect cycles! Since unhappy numbers cycle, we just need to keep track of every sum we've seen. If we see a sum again and it's not 1, we are in a loop.",
+    howMethod: "Convert the number to string to iterate through digits, square them, sum them. Store each new sum in a set. If sum becomes 1, return true. If sum is already in the set, we are looping -> return false.",
+    whyFunction: "sum(int(digit)**2 for digit in str(n)) is a high-level Python generator expression. set() provides O(1) lookup to catch the cycle.",
+    howFunction: "19 -> 82 -> 68 -> 100 -> 1. Success! For unhappy like 2, it eventually hits 4, 16, 37... and loops back to 4.",
+    timeComplexity: "O(log n)", spaceComplexity: "O(log n)",
+    relatedQ: {
+      title: "Happy Number (Cycle Detection)",
+      problem: "Can you solve it without using a Set?",
+      solution: "Use slow/fast pointer logic just like Linked List Cycle!",
+      why: "Cycle detection is the same problem whether it's nodes or numbers."
+    }
+  },
+  {
+    id: 41, num: 203, title: "Remove Linked List Elements", topic: ["Linked List", "Recursion"], mostAsked: false,
+    askCount: 4200,
+    problem: `Given the head of a linked list and an integer val, remove all nodes with value 'val'.\n\nExample:\nInput: 1→2→6→3→4→5→6, val = 6 → Output: 1→2→3→4→5`,
+    solution: `def removeElements(head, val):
+    dummy = ListNode(0, head)
+    curr = dummy
+    while curr.next:
+        if curr.next.val == val:
+            curr.next = curr.next.next
+        else:
+            curr = curr.next
+    return dummy.next`,
+    whyMethod: "DUMMY NODE is the secret weapon! It handles the case where the head itself needs to be deleted, removing the need for special 'if head is val' checks.",
+    howMethod: "Create a dummy node pointing to the head. Use 'curr' to inspect the NEXT node. If curr.next.val equals target, skip it by pointing to curr.next.next. Otherwise, just move forward.",
+    whyFunction: "curr.next = curr.next.next removes the target node from the logical chain. Return dummy.next because the original head might have been deleted.",
+    howFunction: "At [1]->[6]->[3]: curr is at [1], sees [6] is target. curr.next becomes [3]. [6] is now detached.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Delete Node in a Linked List (LC #237)",
+      problem: "Delete a node given ONLY a pointer to that node.",
+      solution: "node.val = node.next.val; node.next = node.next.next",
+      why: "If you can't find the previous node, you have to 'copy' the next node over current."
+    }
+  },
+  {
+    id: 42, num: 205, title: "Isomorphic Strings", topic: ["Hash Table", "String"], mostAsked: false,
+    askCount: 3900,
+    problem: `Two strings s and t are isomorphic if characters in s can be replaced to get t.\nNo two characters may map to the same character, but a character may map to itself.\n\nExample:\nInput: s="egg", t="add" → Output: true\nInput: s="foo", t="bar" → Output: false`,
+    solution: `def isIsomorphic(s, t):
+    mapST, mapTS = {}, {}
+    for c1, c2 in zip(s, t):
+        if (c1 in mapST and mapST[c1] != c2) or \
+           (c2 in mapTS and mapTS[c2] != c1):
+            return False
+        mapST[c1] = c2
+        mapTS[c2] = c1
+    return True`,
+    whyMethod: "Bi-directional mapping! We need two dictionaries to ensure a 'one-to-one' relationship. Character 'a' cannot map to 'x' if 'b' already maps to 'x'.",
+    howMethod: "Loop through both strings simultaneously using zip(). For each pair (c1, c2), check if c1 is already mapped to something else, OR if c2 was already mapped to a different c1. If both are clear, record the mapping.",
+    whyFunction: "zip(s, t) iterates through both strings in pairs. Two maps ensure the 'one-to-one' constraint across both strings.",
+    howFunction: "s='egg', t='add': e->a, g->d. Next g sees g->d matches, OK. s='foo', t='bar': f->b, o->a, next o sees o->a but current is 'r', ERROR.",
+    timeComplexity: "O(n)", spaceComplexity: "O(k) where k is charset size",
+    relatedQ: {
+      title: "Word Pattern (LC #290)",
+      problem: "Check if pattern 'abba' matches 'dog cat cat dog'.",
+      solution: "Same bi-directional mapping logic but split string into words first.",
+      why: "Words and characters behave exactly same for grouping consistency."
+    }
+  },
+  {
+    id: 43, num: 226, title: "Invert Binary Tree", topic: ["Tree", "DFS", "BFS"], mostAsked: true,
+    askCount: 12000,
+    problem: `Given the root of a binary tree, invert the tree (mirror it) and return its root.\n\nExample:\nInput: [4,2,7,1,3,6,9] → Output: [4,7,2,9,6,3,1]`,
+    solution: `def invertTree(root):
+    if not root: return None
+    
+    root.left, root.right = invertTree(root.right), \
+                            invertTree(root.left)
+    return root`,
+    whyMethod: "Recursion! To invert a whole tree, you just swap the left and right child nodes and then repeat the process for each subtree. Famous 'Max Howell' problem!",
+    howMethod: "Base case: if node is empty, return None. Swap the left child and right child. Recursively call invertTree on both children to flip the entire structure.",
+    whyFunction: "root.left, root.right = ... is a simultaneous assignment in Python, avoiding a temporary variable. DFS approach flips from leaves to root.",
+    howFunction: "The function goes all the way to the bottom, then swaps leaf children, then swaps middle children... working its way up to the root.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Flip Equivalent Binary Trees (LC #951) — Medium",
+      problem: "Check if two trees are equivalent by flipping some nodes.",
+      solution: "Check if nodes match, then check if (L1==L2 and R1==R2) OR (L1==R2 and R1==L2).",
+      why: "Extension of symmetry/inversion check — dynamic mirror check."
+    }
+  },
+  {
+    id: 44, num: 234, title: "Palindrome Linked List", topic: ["Linked List", "Two Pointers", "Recursion"], mostAsked: true,
+    askCount: 6500,
+    problem: `Given the head of a singly linked list, return true if it is a palindrome.\n\nExample:\nInput: 1→2→2→1 → Output: true\nInput: 1→2 → Output: false`,
+    solution: `def isPalindrome(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    
+    prev = None
+    while slow:
+        nxt = slow.next
+        slow.next = prev
+        prev = slow
+        slow = nxt
+        
+    left, right = head, prev
+    while right:
+        if left.val != right.val: return False
+        left = left.val; right = right.val
+    return True`,
+    whyMethod: "Triple Power: Slow/Fast Pointers + Reversal! Find the middle, reverse the second half, then compare the two halves. Achieves O(1) space!",
+    howMethod: "Use slow/fast to find midpoint. Reverse the linked list starting from 'slow'. Now compare the original first half with the newly reversed second half. If all match, it's a palindrome.",
+    whyFunction: "slow pointer naturally ends up at the half-way point. The reversal logic is the standard 3-pointer linked list reverse. Comparisons stop when 'right' (shorter half) hits None.",
+    howFunction: "1-2-2-1: Mid is second 2. Reverse [2,1] to [1,2]. Compare [1,2] from head and [1,2] from tail. Perfect Match.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Palindrome Number (LC #9)",
+      problem: "Check if a number 121 is a palindrome.",
+      solution: "x == int(str(x)[::-1])",
+      why: "Lists and strings represent sequential data palidromes similarly, but lists require pointer logic for performance."
+    }
+  },
+  {
+    id: 45, num: 258, title: "Add Digits", topic: ["Math", "Simulation", "Number Theory"], mostAsked: false,
+    askCount: 3200,
+    problem: `Given an integer n, repeatedly add all its digits until the result has only one digit, and return it.\n\nExample:\nInput: 38 → Output: 2 (3+8=11, 1+1=2)`,
+    solution: `def addDigits(n):
+    if n == 0: return 0
+    return 1 + (n - 1) % 9`,
+    whyMethod: "This is a secret math pattern called 'Digital Root'. Summing digits repeatedly always results in n % 9 (with 9 representing a 0 remainder).",
+    howMethod: "You can do it with a loop (n = sum of digits...), but the math trick is faster! 1 + (n-1)%9 calculates the digital root directly in constant time.",
+    whyFunction: "The modulo 9 property states that a number and its sum of digits are congruent modulo 9. This avoids the simulation overhead.",
+    howFunction: "38: (38-1)%9 = 37%9 = 1. 1+1 = 2. 18: (18-1)%9 = 17%9 = 8. 1+8 = 9.",
+    timeComplexity: "O(1)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Sum of Digits in Base K (LC #1837)",
+      problem: "Same problem but in base K instead of decimal.",
+      solution: "While n: sum += n % k; n //= k",
+      why: "Basic simulation of digit extraction via modulo and division."
+    }
+  },
+  {
+    id: 46, num: 383, title: "Ransom Note", topic: ["Hash Table", "String", "Counting"], mostAsked: true,
+    askCount: 6800,
+    problem: `Given ransomNote and magazine strings, return true if ransomNote can be constructed from magazine.\nEach letter in magazine can only be used once.\n\nExample:\nInput: rs="a", mag="b" → false\nInput: rs="aa", mag="aab" → true`,
+    solution: `def canConstruct(ransomNote, magazine):
+    from collections import Counter
+    mag_count = Counter(magazine)
+    rs_count = Counter(ransomNote)
+    
+    for char, count in rs_count.items():
+        if mag_count[char] < count:
+            return False
+    return True`,
+    whyMethod: "Counting frequencies! We just need to ensure the magazine has at least as many counts of each character as the ransom note requires.",
+    howMethod: "Use a Counter (hash map) to tally all letters in the magazine. Then check the ransom note; for every letter used, subtract it from the magazine tally. If a tally drops below zero, it's impossible.",
+    whyFunction: "Counter subtracts whole dictionaries! rs_count & mag_count checks if the intersection contains everything needed.",
+    howFunction: "Note 'aa', Mag 'aab': 'a' needs 2, magazine has 2. OK. 'b' not needed. Return True.",
+    timeComplexity: "O(N+M)", spaceComplexity: "O(1) (charset is limited to 26 letters)",
+    relatedQ: {
+      title: "Valid Anagram (LC #242)",
+      problem: "Check if two strings use exactly the same letters.",
+      solution: "Counter(s) == Counter(t)",
+      why: "An anagram is just a ransom note where lengths also match exactly."
+    }
+  },
+  {
+    id: 47, num: 387, title: "First Unique Character in a String", topic: ["Hash Table", "String"], mostAsked: true,
+    askCount: 6100,
+    problem: `Find the first non-repeating character in a string and return its index. If it does not exist, return -1.\n\nExample:\nInput: "leetcode" → Output: 0 (l)\nInput: "loveleetcode" → Output: 2 (v)`,
+    solution: `def firstUniqChar(s):
+    count = collections.Counter(s)
+    for i, char in enumerate(s):
+        if count[char] == 1:
+            return i
+    return -1`,
+    whyMethod: "Two-pass frequency counting. First pass: count how many times each character appears. Second pass: scan the string again to find the first character with a count of 1.",
+    howMethod: "Use Counter to build a hash map of char counts. Iterate through the string one more time from left to right. The first character you find that has count[char] == 1 is the answer.",
+    whyFunction: "Counter(s) builds the frequency map in O(n). enumerate(s) provides the index we need for the return value.",
+    howFunction: "'loveleetcode': 'l' count is 2 (seen later), 'o' count is 2, 'v' count is 1. 'v' is the first one found in second pass. Index 2.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1) (max 26 letters)",
+    relatedQ: {
+      title: "First Unique Number (LC Design)",
+      problem: "Find first unique in a data stream.",
+      solution: "Use a Queue + Hash Map to track unique candidates.",
+      why: "Adding 'streaming' requirement means we can't do two passes, need more complex state."
+    }
+  },
+  {
+    id: 48, num: 392, title: "Is Subsequence", topic: ["Two Pointers", "String", "Dynamic Programming"], mostAsked: true,
+    askCount: 7200,
+    problem: `Given strings s and t, return true if s is a subsequence of t.\n\nExample:\nInput: s = "abc", t = "ahbgdc" → Output: true\nInput: s = "axc", t = "ahbgdc" → Output: false`,
+    solution: `def isSubsequence(s, t):
+    if not s: return True
+    i = 0
+    for char in t:
+        if i < len(s) and char == s[i]:
+            i += 1
+    return i == len(s)`,
+    whyMethod: "Single pass Greedy / Two Pointers! We walk through string t; every time we see the next character we need from s, we move s's pointer forward.",
+    howMethod: "Pointer 'i' tracks our position in s. Iterate through every character in t. If the current character in t matches s[i], increment i. At the end, if i equals the length of s, we found all characters in order.",
+    whyFunction: "if not s: return True handles the edge case where an empty string is always a subsequence of anything. The loop stops when s is fully found.",
+    howFunction: "s='abc', t='ahbgdc': Find 'a' at 0, i=1. Find 'b' at 2, i=2. Find 'c' at 5, i=3. Length s=3, match!",
+    timeComplexity: "O(n) where n is length of t", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Longest Common Subsequence (LC #1143) — Medium",
+      problem: "Find the length of the longest part shared by two strings.",
+      solution: "Need a 2D Dynamic Programming matrix (dp[i][j]).",
+      why: "If characters can be anywhere, we must compare all combinations, not just skip through."
+    }
+  },
+  {
+    id: 49, num: 463, title: "Island Perimeter", topic: ["Array", "Hash Table", "Math", "DFS"], mostAsked: false,
+    askCount: 3100,
+    problem: `You are given a map (grid) where 1 represents land and 0 represents water. Find the perimeter of the island.\n\nExample:\nInput: [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]\nOutput: 16`,
+    solution: `def islandPerimeter(grid):
+    rows, cols = len(grid), len(grid[0])
+    perimeter = 0
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == 1:
+                perimeter += 4
+                if r > 0 and grid[r-1][c] == 1: perimeter -= 2
+                if c > 0 and grid[r][c-1] == 1: perimeter -= 2
+    return perimeter`,
+    whyMethod: "Counting and Deducting! Every land square has 4 sides. When two squares are neighbors, they 'share' a wall, so two sides disappear from the total perimeter.",
+    howMethod: "Iterate through the grid. For every '1' you find, add 4 to perimeter. Then check if there's a land square to its LEFT or ABOVE. If there is, subtract 2 (one for current, one for neighbor).",
+    whyFunction: "Subtract 2 handles the shared edge from both sides. We only check LEFT and ABOVE to avoid double-counting subtraction as we move through.",
+    howFunction: "Two side-by-side squares: (4 + 4) - 2 = 6 walls visible. Correct!",
+    timeComplexity: "O(R*C)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Number of Islands (LC #200) — Medium",
+      problem: "Count distinct islands in a grid.",
+      solution: "Need DFS/BFS to 'flood fill' each island and count them.",
+      why: "Requires groups/connectivity instead of just a simple math tally."
+    }
+  },
+  {
+    id: 50, num: 543, title: "Diameter of Binary Tree", topic: ["Tree", "DFS"], mostAsked: true,
+    askCount: 7800,
+    problem: `Return the length of the diameter of a binary tree.\nThe diameter is the length of the longest path between any two nodes. This path may or may not pass through the root.\n\nExample:\nInput: [1,2,3,4,5] → Output: 3 (4→2→5→1→3 is distance 3)`,
+    solution: `def diameterOfBinaryTree(root):
+    self.res = 0
+    def dfs(node):
+        if not node: return 0
+        l, r = dfs(node.left), dfs(node.right)
+        self.res = max(self.res, l + r)
+        return 1 + max(l, r)
+    dfs(root)
+    return self.res`,
+    whyMethod: "Recursive Depth! The diameter passing through a node is simply its (Left Height + Right Height). We track the maximum such sum throughout the entire tree traversal.",
+    howMethod: "Use DFS to calculate height of each subtree. As you compute height, update a global 'max_diameter' with sum of current children's heights. Return height to parent nodes to continue calculation.",
+    whyFunction: "l + r is the path distance crossing the node. 1 + max(l,r) is how we pass our own height back up to the parent.",
+    howFunction: "A node with left height 2 and right height 1 has a local diameter of 3. It tells its parent 'my path length is 3'.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Binary Tree Maximum Path Sum (LC #124) — Hard",
+      problem: "Find max sum path between any two nodes.",
+      solution: "Same structure as diameter, but track 'node.val + L + R' and only add L/R if they are positive.",
+      why: "Diameter tracks distance (1 count), Path Sum tracks weights (node labels)."
+    }
+  },
+  {
+    id: 51, num: 605, title: "Can Place Flowers", topic: ["Array", "Greedy"], mostAsked: true,
+    askCount: 4500,
+    problem: `Given a flowerbed (array of 0s and 1s) and n, return true if n new flowers can be planted without violating the no-adjacent-flowers rule.\n\nExample:\nInput: [1,0,0,0,1], n=1 → true\nInput: [1,0,0,0,1], n=2 → false`,
+    solution: `def canPlaceFlowers(flowerbed, n):
+    count = 0
+    bed = [0] + flowerbed + [0]
+    for i in range(1, len(bed) - 1):
+        if bed[i-1] == 0 and bed[i] == 0 and bed[i+1] == 0:
+            bed[i] = 1
+            count += 1
+    return count >= n`,
+    whyMethod: "Greedy Check! We look for three consecutive zeros. Whenever we find them, we plant a flower in the middle one and move on. Adding dummy '0's at ends simplifies boundary checks.",
+    howMethod: "Pad the flowerbed with a 0 on both sides. Iterate through. If the current spot and both neighbors are 0, plant a 1 and increment your counter. Finally, check if your counter hit n.",
+    whyFunction: "[0] + flowerbed + [0] is a clever trick to avoid 'if i > 0' and 'if i < len-1' checks inside the loop.",
+    howFunction: "[1,0,0,0,1] becomes [0,1,0,0,0,1,0]. At index 3, we see 0,0,0 -> plant! Count=1. Done.",
+    timeComplexity: "O(n)", spaceComplexity: "O(n) (or O(1) if modified in-place)",
+    relatedQ: {
+      title: "Teemo Attacking (LC #495)",
+      problem: "Calculate total duration of poison effect from attacks.",
+      solution: "Compare gap between attacks with duration.",
+      why: "Both involve checking gaps between events in a sequence."
+    }
+  },
+  {
+    id: 52, num: 617, title: "Merge Two Binary Trees", topic: ["Tree", "DFS"], mostAsked: true,
+    askCount: 5800,
+    problem: `Merge two binary trees. If two nodes overlap, sum their values. Otherwise, use the non-null node.\n\nExample:\nInput: t1=[1,3,2,5], t2=[2,1,3,null,4,null,7]\nOutput: [3,4,5,5,4,null,7]`,
+    solution: `def mergeTrees(t1, t2):
+    if not t1: return t2
+    if not t2: return t1
+    
+    root = TreeNode(t1.val + t2.val)
+    root.left = mergeTrees(t1.left, t2.left)
+    root.right = mergeTrees(t1.right, t2.right)
+    return root`,
+    whyMethod: "Recursive Merging! If both nodes exist, sum them. If one is missing, the entire 'other' subtree becomes the result for that branch.",
+    howMethod: "Base cases handle None nodes by returning the other tree. Recursive step: create a new node with the sum of values, then recursively merge left and right subtrees.",
+    whyFunction: "if not t1: return t2 is efficient because it avoids traversing the rest of t2 — we just link the whole subtree.",
+    howFunction: "Merge(1, 2) -> 3. Merge(3, 1) -> 4. Merge(null, 3) -> 3. The trees zip together like a zipper.",
+    timeComplexity: "O(min(m, n))", spaceComplexity: "O(h) where h is height",
+    relatedQ: {
+      title: "Add Two Numbers (LC #2)",
+      problem: "Merge two numbers represented as linked lists.",
+      solution: "Iterate and sum with carry.",
+      why: "Both problems involve summing structures based on position/mapping."
+    }
+  },
+  {
+    id: 53, num: 700, title: "Search in a Binary Search Tree", topic: ["Tree", "Binary Search Tree"], mostAsked: false,
+    askCount: 4100,
+    problem: `Find the node in a BST that equals 'val' and return the subtree rooted at that node.\n\nExample:\nInput: root=[4,2,7,1,3], val=2 → Output: [2,1,3]`,
+    solution: `def searchBST(root, val):
+    if not root or root.val == val:
+        return root
+    
+    if val < root.val:
+        return searchBST(root.left, val)
+    return searchBST(root.right, val)`,
+    whyMethod: "The Binary Search Tree Property! Keys to the left are smaller, keys to the right are larger. This allows us to eliminate half the tree at every step.",
+    howMethod: "Compare val to current node. If it matches, you found it! If val is smaller, search ONLY the left subtree. If larger, search ONLY the right.",
+    whyFunction: "The return statement passes the found node (or None) all the way back up the recursion stack to the caller.",
+    howFunction: "Looking for 2 in [4,2,7]: 2 < 4 -> go left. 2 == 2 -> return node(2).",
+    timeComplexity: "O(log n) average", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Binary Search (LC #704)",
+      problem: "Search in a sorted array.",
+      solution: "Binary search with left/right pointers.",
+      why: "BST is effectively the 'tree' representation of a sorted array used for binary search."
+    }
+  },
+  {
+    id: 54, num: 703, title: "Kth Largest Element in a Stream", topic: ["Tree", "Heap", "Design"], mostAsked: true,
+    askCount: 5200,
+    problem: `Design a class to find the kth largest element in a stream of numbers.\n\nExample:\nKthLargest k = new KthLargest(3, [4,5,8,2]);\nk.add(3) → 4 (sorted 2,3,4,5,8)\nk.add(5) → 5 (sorted 2,3,4,5,5,8)`,
+    solution: `class KthLargest:
+    def __init__(self, k, nums):
+        self.k = k
+        self.heap = nums
+        heapq.heapify(self.heap)
+        while len(self.heap) > k:
+            heapq.heappop(self.heap)
+
+    def add(self, val):
+        heapq.heappush(self.heap, val)
+        if len(self.heap) > self.k:
+            heapq.heappop(self.heap)
+        return self.heap[0]`,
+    whyMethod: "Min-Heap of size K! A min-heap's root is the smallest value. If we keep only the K largest values in a min-heap, the root will be the K-th largest overall.",
+    howMethod: "Build a min-heap from initial numbers. Keep popping until only K elements remain. For every new 'add', push it to heap and pop the smallest if heap size exceeds K. return heap[0].",
+    whyFunction: "heapq is Python's built-in min-heap. heap[0] always accesses the minimum element in O(1).",
+    howFunction: "K=3: heap=[4,5,8]. Add 3 -> [3,4,5,8] -> pop 3 -> [4,5,8]. Result = heap[0] = 4.",
+    timeComplexity: "O(log k) per add", spaceComplexity: "O(k)",
+    relatedQ: {
+      title: "Find Median from Data Stream (LC #295) — Hard",
+      problem: "Find the median of a stream of numbers.",
+      solution: "Use TWO heaps (one max-heap for left, one min-heap for right).",
+      why: "Extension of 'k-th' logic to the 'middle' of a sorted stream."
+    }
+  },
+  {
+    id: 55, num: 705, title: "Design HashSet", topic: ["Array", "Hash Table", "Design"], mostAsked: false,
+    askCount: 3800,
+    problem: `Design a HashSet without using any built-in hash table libraries.\nImplement add(key), remove(key), and contains(key).`,
+    solution: `class MyHashSet:
+    def __init__(self):
+        self.size = 1000
+        self.table = [[] for _ in range(self.size)]
+
+    def _hash(self, key):
+        return key % self.size
+
+    def add(self, key):
+        if not self.contains(key):
+            self.table[self._hash(key)].append(key)
+
+    def remove(self, key):
+        h = self._hash(key)
+        if key in self.table[h]:
+            self.table[h].remove(key)
+
+    def contains(self, key):
+        return key in self.table[self._hash(key)]`,
+    whyMethod: "Chaining with Modulo! We use an array of 'buckets' (lists). We map each key to a bucket using 'key % size'. If multiple keys land in the same bucket, we store them in a list.",
+    howMethod: "Create a list of 1000 empty sub-lists. Hash(key) returns index. add: check if exists in bucket, if not, append. remove: find in bucket and delete. contains: search the specific bucket.",
+    whyFunction: "self.size = 1000 is a balance between memory and speed (collision frequency). key % size is a simple hash function for integers.",
+    howFunction: "Key 1234 -> Hash is 234. Store 1234 in self.table[234].",
+    timeComplexity: "O(1) average", spaceComplexity: "O(N)",
+    relatedQ: {
+      title: "Design HashMap (LC #706)",
+      problem: "Implement map key->value without built-ins.",
+      solution: "Same chaining logic, but store pairs [key, value] in buckets.",
+      why: "A map is just a set with associated payloads."
+    }
+  },
+  {
+    id: 56, num: 706, title: "Design HashMap", topic: ["Array", "Hash Table", "Design"], mostAsked: true,
+    askCount: 4200,
+    problem: `Design a HashMap without built-in hash table libraries. Implement put(key, value), get(key), and remove(key).`,
+    solution: `class MyHashMap:
+    def __init__(self):
+        self.size = 1000
+        self.table = [[] for _ in range(self.size)]
+
+    def _hash(self, key):
+        return key % self.size
+
+    def put(self, key, value):
+        h = self._hash(key)
+        for i, (k, v) in enumerate(self.table[h]):
+            if k == key:
+                self.table[h][i] = (key, value)
+                return
+        self.table[h].append((key, value))
+
+    def get(self, key):
+        h = self._hash(key)
+        for k, v in self.table[h]:
+            if k == key: return v
+        return -1`,
+    whyMethod: "Bucket Chaining! Just like HashSet, but each bucket entry is a (key, value) pair. Handling collisions by walking through a small list at each hash index.",
+    howMethod: "Hash the key to find the bucket index. For 'put', search the bucket: if key exists, update value; if not, add new pair. For 'get', search bucket and return value or -1.",
+    whyFunction: "enumerate() helps find the index for updating values. (key, value) tuples are standard for mapping storage in buckets.",
+    howFunction: "put(1, 100) -> hash(1)=1 -> table[1] has [(1,100)]. get(1) -> check table[1] -> found 1, return 100.",
+    timeComplexity: "O(1) average", spaceComplexity: "O(N)",
+    relatedQ: {
+      title: "LRU Cache (LC #146) — Medium",
+      problem: "Design a cache that evicts Least Recently Used items.",
+      solution: "HashMap + Doubly Linked List.",
+      why: "HashMap for O(1) access, Linked List for O(1) order tracking."
+    }
+  },
+  {
+    id: 57, num: 724, title: "Find Pivot Index", topic: ["Array", "Prefix Sum"], mostAsked: true,
+    askCount: 4900,
+    problem: `Find index where sum of all numbers to the left equals sum of all numbers to the right.\n\nExample:\nInput: [1,7,3,6,5,6] → Output: 3 (1+7+3 = 11, 5+6 = 11)`,
+    solution: `def pivotIndex(nums):
+    total = sum(nums)
+    left_sum = 0
+    for i, x in enumerate(nums):
+        if left_sum == (total - left_sum - x):
+            return i
+        left_sum += x
+    return -1`,
+    whyMethod: "Prefix Sum Logic! Instead of calculating sums over and over, we realize that right_sum = total_sum - left_sum - current_num. Only one loop needed!",
+    howMethod: "Calculate the total sum first. Iterate through the array, keeping track of the sum of elements seen so far (leftSum). At each index, check if leftSum equals the calculated rightSum. If so, return index.",
+    whyFunction: "(total - left_sum - x) represents everything to the right of x. This mathematical reduction turns an O(n²) problem into O(n).",
+    howFunction: "[1,7,3,6...], total=28. At index 3 (val 6): left=11. Right = 28 - 11 - 6 = 11. Match!",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Subarray Sum Equals K (LC #560) — Medium",
+      problem: "Count subarrays that sum to K.",
+      solution: "HashMap to store prefix sums seen so far.",
+      why: "Both rely on the formula: sum(i,j) = prefixSum[j] - prefixSum[i-1]."
+    }
+  },
+  {
+    id: 58, num: 733, title: "Flood Fill", topic: ["Array", "DFS", "BFS"], mostAsked: true,
+    askCount: 4800,
+    problem: `Perform a 'flood fill' on an image starting from (sr, sc). Change color of starting pixel and all connected pixels of same original color.\n\nExample:\nInput: [[1,1,1],[1,1,0],[1,0,1]], sr=1, sc=1, color=2\nOutput: [[2,2,2],[2,2,0],[2,0,1]]`,
+    solution: `def floodFill(image, sr, sc, color):
+    start_color = image[sr][sc]
+    if start_color == color: return image
+    
+    def dfs(r, c):
+        if (r < 0 or r >= len(image) or 
+            c < 0 or c >= len(image[0]) or 
+            image[r][c] != start_color):
+            return
+        image[r][c] = color
+        dfs(r+1, c)
+        dfs(r-1, c)
+        dfs(r, c+1)
+        dfs(r, c-1)
+        
+    dfs(sr, sc)
+    return image`,
+    whyMethod: "Depth First Search (DFS)! Think of it like painting: you start at a point, then branch out to neighbors, then their neighbors, until you hit a boundary or a different color.",
+    howMethod: "Save the starting color. Define a recursive function that checks if current pixel matches starting color. If yes, paint it and call DFS on up, down, left, right neighbors.",
+    whyFunction: "if start_color == color: return prevents infinite loops when re-painting with the same color. Boundary checks (r < 0, etc.) are essential to avoid errors.",
+    howFunction: "Starts at (1,1). Paints it 2. Checks neighbors. (0,1) is white? Yes -> Paint 2. Branch continues until it hits 0s or edge.",
+    timeComplexity: "O(N)", spaceComplexity: "O(N) (recursion stack)",
+    relatedQ: {
+      title: "Island Perimeter (LC #463)",
+      problem: "Find length of border around an island.",
+      solution: "Iterate and subtract shared walls.",
+      why: "Both involve traversing connected components in a grid."
+    }
+  },
+  {
+    id: 59, num: 746, title: "Min Cost Climbing Stairs", topic: ["Array", "Dynamic Programming"], mostAsked: false,
+    askCount: 3900,
+    problem: `You can step 1 or 2 stairs. costs[i] is cost for step i. Return min cost to reach top.\n\nExample:\nInput: [10, 15, 20] → Output: 15 (start at index 1, skip to top)`,
+    solution: `def minCostClimbingStairs(cost):
+    cost.append(0) # the floor above last step
+    for i in range(len(cost) - 3, -1, -1):
+        cost[i] += min(cost[i + 1], cost[i + 2])
+    return min(cost[0], cost[1])`,
+    whyMethod: "Dynamic Programming (Bottom-Up)! The cost to reach the top from step 'i' is cost[i] plus the minimum of the costs to reach the top from the two steps ahead.",
+    howMethod: "Modify the cost array in-place from right-to-left. For each step, add the minimum of its two next options. The answer is the minimum of starting at index 0 or index 1.",
+    whyFunction: "cost.append(0) represents the goal. range(len-3, -1, -1) starts from the last real choice you have to make.",
+    howFunction: "[10, 15, 20, 0]: 15 + min(20, 0) = 15. 10 + min(15, 20) = 25. min(25, 15) = 15.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Climbing Stairs (LC #70)",
+      problem: "Count WAYS to climb.",
+      solution: "ways[i] = ways[i-1] + ways[i-2]",
+      why: "Both are Fibonacci variations: one sums ways, one minimizes cost."
+    }
+  },
+  {
+    id: 60, num: 844, title: "Backspace String Compare", topic: ["Two Pointers", "String", "Stack"], mostAsked: true,
+    askCount: 5100,
+    problem: `Comparing strings with '#' as backspace character.\n\nExample:\nInput: s="ab#c", t="ad#c" → Output: true (both become "ac")`,
+    solution: `def backspaceCompare(s, t):
+    def build(S):
+        stack = []
+        for c in S:
+            if c != '#': stack.append(c)
+            elif stack: stack.pop()
+        return "".join(stack)
+    return build(s) == build(t)`,
+    whyMethod: "Stack is the natural intuitive choice! A backspace ('#') deletes the last character entered, which is exactly how a stack (LIFO) behaves.",
+    howMethod: "Write a helper function that process characters: if it's a letter, push to stack. If it's '#', pop the last letter. Convert both final stacks to strings and compare.",
+    whyFunction: "elif stack: pop() handles the case where '#' appears at the very start of a string (nothing to delete). join() collapses the stack back into a word.",
+    howFunction: "ab#c: a, ab, pop(b)->a, ac. ad#c: a, ad, pop(d)->a, ac. 'ac' == 'ac' -> True.",
+    timeComplexity: "O(N+M)", spaceComplexity: "O(N+M)",
+    relatedQ: {
+      title: "Remove All Adjacent Duplicates (LC #1047)",
+      problem: "Remove pairs of same characters (aa -> delete).",
+      solution: "If char == stack[-1]: pop() else: push()",
+      why: "Both use a stack to 'delete' previous progress based on new incoming chars."
+    }
+  },
+  {
+    id: 61, num: 860, title: "Lemonade Change", topic: ["Array", "Greedy"], mostAsked: false,
+    askCount: 3300,
+    problem: `You sell $5 lemonade. Bills are 5, 10, or 20. Return true if you can provide change to every customer.\n\nExample:\nInput: [5,5,5,10,20] → Output: true\nInput: [5,5,10,10,20] → Output: false`,
+    solution: `def lemonadeChange(bills):
+    five = ten = 0
+    for b in bills:
+        if b == 5: five += 1
+        elif b == 10:
+            if not five: return False
+            five -= 1; ten += 1
+        else:
+            if ten and five: ten -= 1; five -= 1
+            elif five >= 3: five -= 3
+            else: return False
+    return True`,
+    whyMethod: "Greedy Algorithm! When giving $15 change (for a $20 bill), it's ALWAYS better to give a $10 and a $5 than three $5s. Saving $5 bills gives you more flexibility later.",
+    howMethod: "Track your counts of $5 and $10 bills. For a $10, you MUST use one $5. For a $20, try using one $10 + one $5 first, otherwise fall back to three $5s. If you can't, return False.",
+    whyFunction: "ten and five: logic prioritize larger bills for change. You never need to track $20 bills because they can't be used as change.",
+    howFunction: "[5, 10, 20]: Sell 5 (+1 five). Sell 10 (needs 5, fail if none). Sell 20 (needs 10+5 OR 5+5+5).",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Assign Cookies (LC #455)",
+      problem: "Maximize happy children given cookie sizes.",
+      solution: "Sort and use greedy allocation.",
+      why: "Greedy logic: use the 'least' resource that satisfies the current constraint."
+    }
+  },
+  {
+    id: 62, num: 896, title: "Monotonic Array", topic: ["Array"], mostAsked: false,
+    askCount: 3100,
+    problem: `Return true if an array is monotonic (either all non-increasing or all non-decreasing).`,
+    solution: `def isMonotonic(nums):
+    inc = dec = True
+    for i in range(len(nums) - 1):
+        if nums[i] > nums[i+1]: inc = False
+        if nums[i] < nums[i+1]: dec = False
+    return inc or dec`,
+    whyMethod: "One Pass Multi-Check! We assume the array is BOTH increasing and decreasing. As we walk through, we disprove these assumptions. If either assumption survives at the end, it's monotonic.",
+    howMethod: "Initialize two booleans 'increasing' and 'decreasing' to True. Walk through neighbors. If current > next, it can't be strictly increasing -> set inc=False. If current < next, it can't be decreasing. Return (inc OR dec).",
+    whyFunction: "The or logic handles the case where all elements are the same (both remain True) correctly.",
+    howFunction: "[1, 2, 2, 3]: never decreasing, inc stays True. Result = True.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Check if Array Is Sorted and Rotated (LC #1752)",
+      problem: "Is array sorted, possibly with a circular shift?",
+      solution: "Count how many times current > next (must be <= 1).",
+      why: "Variation of order checking in linear sequences."
+    }
+  },
+  {
+    id: 63, num: 905, title: "Sort Array By Parity", topic: ["Array", "Two Pointers"], mostAsked: true,
+    askCount: 4600,
+    problem: `Move all even integers to the front of the array followed by all odd integers.\n\nExample:\nInput: [3,1,2,4] → Output: [2,4,3,1]`,
+    solution: `def sortArrayByParity(nums):
+    l, r = 0, len(nums) - 1
+    while l < r:
+        if nums[l] % 2 > nums[r] % 2: # left odd, right even -> swap
+            nums[l], nums[r] = nums[r], nums[l]
+        if nums[l] % 2 == 0: l += 1
+        if nums[r] % 2 == 1: r -= 1
+    return nums`,
+    whyMethod: "Two Pointers (In-place)! Just like Partition in Quicksort. Use one pointer to find 'out of place' odds on the left, and one for evens on the right, then swap.",
+    howMethod: "Start 'left' at 0, 'right' at end. Move 'left' inward while it sees even numbers. Move 'right' inward while it sees odd. If they stop, it means left is on an odd and right is on an even -> swap them and continue.",
+    whyFunction: "nums[l] % 2 == 0 checks for parity. Swapping in-place keeps space complexity at O(1).",
+    howFunction: "Walk through [3, 1, 2, 4]: Left stops at 3, Right stops at 4. Swap -> [4, 1, 2, 3]. Continue.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Move Zeroes (LC #283)",
+      problem: "Move zeros to end, maintain order.",
+      solution: "One write pointer, one read pointer.",
+      why: "Both involve reorganizing array elements based on a boolean criteria."
+    }
+  },
+  {
+    id: 64, num: 929, title: "Unique Email Addresses", topic: ["Array", "Hash Table", "String"], mostAsked: false,
+    askCount: 2900,
+    problem: `Calculate number of unique email addresses. Rules: '.' in local name is ignored, everything after '+' in local name is ignored.\n\nExample:\nInput: ["test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com"] → Output: 1 ("testemail@leetcode.com")`,
+    solution: `def numUniqueEmails(emails):
+    unique = set()
+    for e in emails:
+        local, domain = e.split('@')
+        local = local.split('+')[0].replace('.', '')
+        unique.add(local + '@' + domain)
+    return len(unique)`,
+    whyMethod: "Split and Clean! A set naturally handles uniqueness. We just need to transform each email into its 'canonical' form before adding to the set.",
+    howMethod: "For each email, split into local and domain parts. On the local part, discard everything after the first '+'. Remove all '.' characters. Join back with '@domain' and add to a Set.",
+    whyFunction: "split('@') keeps the domain untouched. replace('.', '') is a robust way to clean the local name.",
+    howFunction: "Transforming 'a.b+c@d.com' -> 'ab@d.com'. Any email with same canonical form only counts once in the set.",
+    timeComplexity: "O(N*M)", spaceComplexity: "O(N*M)",
+    relatedQ: {
+      title: "Is Isomorphic (LC #205)",
+      problem: "Check if mapping is consistent.",
+      solution: "Double Hash Map.",
+      why: "Both involve mapping distinct inputs to canonical identities."
+    }
+  },
+  {
+    id: 65, num: 933, title: "Number of Recent Calls", topic: ["Design", "Queue"], mostAsked: true,
+    askCount: 4200,
+    problem: `Design a class to count requests in the last 3000ms.\n\nExample:\nping(1), ping(100), ping(3001) → 3\nping(3002) → 3 (requests at [100, 3001, 3002])`,
+    solution: `class RecentCounter:
+    def __init__(self):
+        self.q = collections.deque()
+
+    def ping(self, t):
+        self.q.append(t)
+        while self.q[0] < t - 3000:
+            self.q.popleft()
+        return len(self.q)`,
+    whyMethod: "Queue (FIFO) Pattern! Since timestamps always increase, requests that expire will always be at the front of our line. A queue lets us efficiently add to end and remove from front.",
+    howMethod: "Add the new timestamp to the end of a queue. Check the front of the queue: while the timestamps are older than (current - 3000), remove them. The size of the remaining queue is the answer.",
+    whyFunction: "collections.deque() provides O(1) removals from the left (popleft). Using a list would be O(n).",
+    howFunction: "Ping at 3500. Queue has [1, 100, 500]. New [1, 100, 500, 3500]. Pop 1 because 1 < 3500-3000. Result = 3.",
+    timeComplexity: "O(1) amortized", spaceComplexity: "O(N) (max 3000 if 1 ping per ms)",
+    relatedQ: {
+      title: "Sliding Window Maximum (LC #239) — Hard",
+      problem: "Find max in window of size k moving through array.",
+      solution: "Deque to track indices of max candidates.",
+      why: "Both involve a 'time-limited' window where only recent info matters."
+    }
+  },
+  {
+    id: 66, num: 938, title: "Range Sum of BST", topic: ["Tree", "Binary Search Tree", "DFS"], mostAsked: true,
+    askCount: 5400,
+    problem: `Given root of a BST and range [low, high], return sum of values of all nodes in that range.\n\nExample:\nInput: [10,5,15,3,7,null,18], low=7, high=15 → Output: 32 (7+10+15)`,
+    solution: `def rangeSumBST(root, low, high):
+    self.sum = 0
+    def dfs(node):
+        if not node: return
+        if low <= node.val <= high:
+            self.sum += node.val
+        if node.val > low:
+            dfs(node.left)
+        if node.val < high:
+            dfs(node.right)
+    dfs(root)
+    return self.sum`,
+    whyMethod: "Pruned Search! In a BST, we can skip subtrees entirely. If current value ≤ low, we don't need to look at its left child. If ≥ high, we don't need to look right.",
+    howMethod: "Recursively visit the tree. If node value is in range, add to sum. ONLY visit left child if node's value > low. ONLY visit right child if value < high.",
+    whyFunction: "Pruning (skipping subtrees) is the key to making this faster than a full tree scan. self.sum tracks total across recursive calls.",
+    howFunction: "Search range [7, 15] on root 10. Visit both children. On child 5, value < 7, skip its left side and only check its right for values >= 7.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Search in a BST (LC #700)",
+      problem: "Find one specific value.",
+      solution: "Branch left or right only.",
+      why: "Range sum is a 'dual branch' search where both sides might be relevant."
+    }
+  },
+  {
+    id: 67, num: 941, title: "Valid Mountain Array", topic: ["Array"], mostAsked: false,
+    askCount: 3300,
+    problem: `Array is mountain if it strictly increases then strictly decreases. Must be length >= 3.\n\nExample:\nInput: [0,3,2,1] → true\nInput: [3,5,5] → false`,
+    solution: `def validMountainArray(arr):
+    n = len(arr)
+    if n < 3: return False
+    i = 0
+    while i + 1 < n and arr[i] < arr[i + 1]:
+        i += 1
+    if i == 0 or i == n - 1: return False
+    while i + 1 < n and arr[i] > arr[i + 1]:
+        i += 1
+    return i == n - 1`,
+    whyMethod: "The 'Climber' approach! Simulate climbing up the mountain as far as possible, then climbing down. If you end up at the exact end of the array, it's a valid mountain.",
+    howMethod: "Iterate as long as numbers are increasing. Stop at the peak. Check if peak is valid (not at start or end). Then continue iterating as long as numbers are decreasing. If you reach the last index, success!",
+    whyFunction: "i == 0 check ensures it's not just a 'downhill' slope. i == n-1 ensures it's not just an 'uphill' slope.",
+    howFunction: "[1, 2, 3, 2, 1]: Climb to index 2 (val 3). Not at edge. Descend to last index. Result = True.",
+    timeComplexity: "O(n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Longest Mountain in Array (LC #845) — Medium",
+      problem: "Find the longest mountain segment in a larger array.",
+      solution: "Find peaks and expand outwards from each.",
+      why: "Same definition, but need to find the best local mountain among many."
+    }
+  },
+  {
+    id: 68, num: 942, title: "DI String Match", topic: ["Array", "Two Pointers", "String", "Greedy"], mostAsked: false,
+    askCount: 2700,
+    problem: `Given string s of 'I' (increase) or 'D' (decrease), return a permutation of [0...len(s)] that matches the pattern.\n\nExample:\nInput: "IDID" → Output: [0,4,1,3,2]`,
+    solution: `def diStringMatch(s):
+    l, r = 0, len(s)
+    res = []
+    for c in s:
+        if c == 'I':
+            res.append(l); l += 1
+        else:
+            res.append(r); r -= 1
+    res.append(l)
+    return res`,
+    whyMethod: "Two Pointers / Greedy! For an 'Increase', use the smallest possible remaining number. For a 'Decrease', use the largest possible. This guarantees a safe follow-up move.",
+    howMethod: "Start with range [0, n]. For each 'I' in the string, take the current minimum from range and increment it. For each 'D', take the current maximum and decrement it. Append the final remaining number at the end.",
+    whyFunction: "Taking the absolute min/max ensures that no matter what the next character is, there's a valid number left to satisfy it.",
+    howFunction: "'IDID' (0-4): I->0, D->4, I->1, D->3. Last is 2. Result [0,4,1,3,2].",
+    timeComplexity: "O(n)", spaceComplexity: "O(n)",
+    relatedQ: {
+      title: "Smallest Number From DI String (LC #2375) — Medium",
+      problem: "Find the lexicographically smallest permutation.",
+      solution: "Stack approach to reverse 'D' segments.",
+      why: "More restrictive variation requiring specific sorting within segments."
+    }
+  },
+  {
+    id: 69, num: 944, title: "Delete Columns to Make Sorted", topic: ["Array", "String"], mostAsked: false,
+    askCount: 2200,
+    problem: `You have an array of strings. You want to delete columns that are NOT sorted lexicographically. Return count of deleted columns.\n\nExample:\nInput: ["abc", "bce", "cae"]\nCol 0: a,b,c (sorted), Col 1: b,c,a (NOT sorted!) → Delete!`,
+    solution: `def minDeletionSize(strs):
+    count = 0
+    for col in range(len(strs[0])):
+        for row in range(len(strs) - 1):
+            if strs[row][col] > strs[row + 1][col]:
+                count += 1
+                break
+    return count`,
+    whyMethod: "Vertical Scan! We iterate column-by-column rather than row-by-row. For each column, we check every row to ensure character[r] ≤ character[r+1].",
+    howMethod: "Loop through column indices 0 to width. Inside, loop through row indices 0 to height-1. If any character is 'greater' than the one below it in that column, increment delete count and move to next column.",
+    whyFunction: "break is used to stop checking the current column as soon as we found it's unsorted — no need to count a single column twice.",
+    howFunction: "Checking Col 1 of ['b', 'c', 'a']: 'c' > 'a' -> delete count++. Done with Column 1.",
+    timeComplexity: "O(N*M)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Find Valid Matrix (LC #1605)",
+      problem: "Construct matrix from row/col sums.",
+      solution: "Greedy fill based on constraints.",
+      why: "Both involve working with matrix dimensions (rows and cols) independently."
+    }
+  },
+  {
+    id: 70, num: 953, title: "Verifying an Alien Dictionary", topic: ["Array", "Hash Table", "String"], mostAsked: true,
+    askCount: 4800,
+    problem: `Given order of alien alphabet, check if list of words is sorted.\n\nExample:\nInput: words=["hello","leetcode"], order="habc..." → Output: true (h comes before l)`,
+    solution: `def isAlienSorted(words, order):
+    order_map = {c: i for i, c in enumerate(order)}
+    for i in range(len(words) - 1):
+        w1, w2 = words[i], words[i+1]
+        for j in range(len(w1)):
+            if j == len(w2): return False
+            if w1[j] != w2[j]:
+                if order_map[w1[j]] > order_map[w2[j]]:
+                    return False
+                break
+    return True`,
+    whyMethod: "Pairwise Comparison + Order Map! Strings are sorted if every adjacent pair is sorted. We build a dictionary to store the custom rank of each alien letter.",
+    howMethod: "Create a map for custom letter ranks. Compare words pairwise. Within each pair, compare characters: first difference decides order using the map. If w1 is longer than w2 but identical up to w2's end (e.g. apple vs app), it's unsorted.",
+    whyFunction: "order_map[char] converts an alien letter into an integer we can compare. if j == len(w2) handles the prefix edge case.",
+    howFunction: "Alien order: h=0, l=1. 'hello' vs 'leetcode': 'h' vs 'l' -> 0 < 1. OK for this pair.",
+    timeComplexity: "O(Total Chars)", spaceComplexity: "O(1) (max 26 letters)",
+    relatedQ: {
+      title: "Valid Anagram (LC #242)",
+      problem: "Check if words have same char frequency.",
+      solution: "Frequency Hash Map.",
+      why: "Both use Hash Maps to define/check character-level properties."
+    }
+  },
+  {
+    id: 71, num: 961, title: "N-Repeated Element in Size 2N Array", topic: ["Array", "Hash Table"], mostAsked: false,
+    askCount: 2600,
+    problem: `In an array of size 2N, there are N+1 unique elements. One element is repeated N times. Find it.\n\nExample:\nInput: [1,2,3,3] → Output: 3`,
+    solution: `def repeatedNTimes(nums):
+    seen = set()
+    for x in nums:
+        if x in seen: return x
+        seen.add(x)
+    return -1`,
+    whyMethod: "The One-Duplicate Rule! If one element is repeated N times in a 2N array, it's essentially the ONLY repetitive element. Any element you see twice must be the answer.",
+    howMethod: "Iterate through the array and store each number in a Hash Set. As soon as you see a number that is already in the set, that's your N-repeated element. Return it immediately.",
+    whyFunction: "The set() provides O(1) average lookup time. The return happens on the very first duplicate found.",
+    howFunction: "[5, 1, 5, 2]: Add 5, Add 1, see 5 again -> return 5.",
+    timeComplexity: "O(n)", spaceComplexity: "O(n)",
+    relatedQ: {
+      title: "Single Number (LC #136)",
+      problem: "Every number repeats twice except one.",
+      solution: "XOR all numbers.",
+      why: "Both use element repetition frequency but allow different trade-offs in space (Set vs Bitwise)."
+    }
+  },
+  {
+    id: 72, num: 965, title: "Univalued Binary Tree", topic: ["Tree", "DFS"], mostAsked: false,
+    askCount: 2800,
+    problem: `Return true if every node in the binary tree has the same value.`,
+    solution: `def isUnivalTree(root):
+    val = root.val
+    def dfs(node):
+        if not node: return True
+        if node.val != val: return False
+        return dfs(node.left) and dfs(node.right)
+    return dfs(root)`,
+    whyMethod: "Global Comparison! Every node's value must match the root node's value.",
+    howMethod: "Store the root's value. Use DFS to visit every node. If any node has a value different from the stored root value, return False. Otherwise, keep checking subtrees.",
+    whyFunction: "and operator ensures all nodes in all branches return True for the final result to be True.",
+    howFunction: "Root 1, child 1 (ok), child 1 (ok). All paths true -> result true.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Same Tree (LC #100)",
+      problem: "Check if two trees are identical.",
+      solution: "DFS comparing both nodes simultaneously.",
+      why: "Identity checking across structures is almost always a recursive DFS."
+    }
+  },
+  {
+    id: 73, num: 977, title: "Squares of a Sorted Array", topic: ["Array", "Two Pointers"], mostAsked: true,
+    askCount: 6500,
+    problem: `Given a sorted array, return an array of the squares of each number sorted in non-decreasing order.\n\nExample:\nInput: [-4,-1,0,3,10] → Output: [0,1,9,16,100]`,
+    solution: `def sortedSquares(nums):
+    n = len(nums)
+    res = [0] * n
+    l, r = 0, n - 1
+    for i in range(n-1, -1, -1):
+        if abs(nums[l]) > abs(nums[r]):
+            res[i] = nums[l] ** 2
+            l += 1
+        else:
+            res[i] = nums[r] ** 2
+            r -= 1
+    return res`,
+    whyMethod: "Two Pointers from Ends! The largest squares in a sorted list are always at the edges (either the most negative or most positive numbers).",
+    howMethod: "Place pointers at the start and end of the array. Compare the magnitude (absolute value) of the two pointers. Place the larger square at the END of your result array, then move that pointer inward. Repeat until the array is filled.",
+    whyFunction: "Filling from n-1 down to 0 avoids the need to sort at the end, keeping complexity O(n).",
+    howFunction: "[-4, 1, 10]: Square 10 is biggest -> [_, _, 100]. Square -4 is next -> [_, 16, 100]. Last square 1 -> [1, 16, 100].",
+    timeComplexity: "O(n)", spaceComplexity: "O(n)",
+    relatedQ: {
+      title: "Merge Sorted Array (LC #88)",
+      problem: "Combine two sorted arrays.",
+      solution: "Two pointers, fill backwards.",
+      why: "Both involve using ends of arrays to safely fill a result without re-sorting."
+    }
+  },
+  {
+    id: 74, num: 985, title: "Sum of Even Numbers After Queries", topic: ["Array"], mostAsked: false,
+    askCount: 2100,
+    problem: `For each query [val, index], modify nums[index] and return sum of all even numbers.\n\nExample:\nInput: nums=[1,2,3,4], query=[1,0] → Modify nums[0]=1+1=2. Sum of evens: 2+2+4=8.`,
+    solution: `def sumEvenAfterQueries(nums, queries):
+    S = sum(x for x in nums if x % 2 == 0)
+    res = []
+    for val, idx in queries:
+        if nums[idx] % 2 == 0: S -= nums[idx]
+        nums[idx] += val
+        if nums[idx] % 2 == 0: S += nums[idx]
+        res.append(S)
+    return res`,
+    whyMethod: "Delta Tracking! Instead of re-calculating the sum from scratch for every query (O(Q*N)), simply subtract the old value from the running sum if it was even, and add the new value if it's even.",
+    howMethod: "First, calculate the initial 'even sum'. For each query: check if current nums[idx] was even (if so, remove from S). Update the number. Then check if the newly updated number is even (if so, add to S). Record current S.",
+    whyFunction: "The if checks handle the four parity cases (even->even, even->odd, odd->even, odd->odd) correctly.",
+    howFunction: "Even Sum = 6. Update 2 by +1. 2 was even -> sum becomes 4. New 3 is odd -> sum stays 4.",
+    timeComplexity: "O(N + Q)", spaceComplexity: "O(1) (excluding result)",
+    relatedQ: {
+      title: "Range Sum Query (LC #303)",
+      problem: "Get sum of subarray in O(1).",
+      solution: "Precompute Prefix Sums.",
+      why: "Both avoid redundant calculation by maintaining internal state between operations."
+    }
+  },
+  {
+    id: 75, num: 989, title: "Add to Array-Form of Integer", topic: ["Array", "Math"], mostAsked: false,
+    askCount: 2800,
+    problem: `Add integer k to number represented by array digits.\n\nExample:\nInput: [1,2,0,0], k=34 → Output: [1,2,3,4] (1200+34=1234)`,
+    solution: `def addToArrayForm(num, k):
+    res = []
+    i = len(num) - 1
+    while i >= 0 or k > 0:
+        if i >= 0:
+            k += num[i]
+            i -= 1
+        res.append(k % 10)
+        k //= 10
+    return res[::-1]`,
+    whyMethod: "Elementary Addition! We can think of K as the 'carry' itself. We add K to the last digit, keep the remainder, and update K with the carry.",
+    howMethod: "Iterate from the back of the digit array. At each step, add the current digit to K. store k%10 (the last digit of the sum) and update k to k//10 (the carry). Continue until both array and K are exhausted. Reverse the result.",
+    whyFunction: "k //= 10 effectively shifts the integer k right, pushing the carry to the next column correctly.",
+    howFunction: "num=[1,2,0,0], k=34: 0+34=34 -> res=[4], k=3. 0+3=3 -> res=[4,3], k=0. 2+0=2 -> res=[4,3,2], k=0. 1+0=1 -> res=[4,3,2,1]. Reverse.",
+    timeComplexity: "O(max(N, log K))", spaceComplexity: "O(max(N, log K))",
+    relatedQ: {
+      title: "Plus One (LC #66)",
+      problem: "Add 1 to digit array.",
+      solution: "Add carry from end.",
+      why: "Plus One is a special case of this problem where K=1."
+    }
+  },
+  {
+    id: 76, num: 993, title: "Cousins in Binary Tree", topic: ["Tree", "BFS"], mostAsked: true,
+    askCount: 3500,
+    problem: `Two nodes are cousins if they have same depth but different parents.\n\nExample:\nInput: [1,2,3,4], x=4, y=3 → Output: false (depths match, but 4 is under 2, 3 is under 1)`,
+    solution: `def isCousins(root, x, y):
+    res = [] # store (parent, depth)
+    def dfs(node, p, d):
+        if not node or len(res) == 2: return
+        if node.val == x or node.val == y:
+            res.append((p, d))
+        dfs(node.left, node, d + 1)
+        dfs(node.right, node, d + 1)
+    dfs(root, None, 0)
+    return res[0][0] != res[1][0] and res[0][1] == res[1][1]`,
+    whyMethod: "Locate and Compare! Find both nodes and record who their parents are and how deep they are. Use the recorded data to check the two cousin rules.",
+    howMethod: "Perform a tree search (DFS or BFS). When you find x or y, save their parent node and current depth. After finding both, return True if (depthX == depthY) AND (parentX != parentY).",
+    whyFunction: "res.append((p, d)) stores all metadata needed for the final ruleset in one pass.",
+    howFunction: "x at (parentA, depth2), y at (parentB, depth2). Parents differ, depths match -> Yes, Cousins.",
+    timeComplexity: "O(n)", spaceComplexity: "O(h)",
+    relatedQ: {
+      title: "Lowest Common Ancestor (LC #235)",
+      problem: "Find closest parent of two nodes in BST.",
+      solution: "Search based on BST property.",
+      why: "Both involve finding relationships between two distinct nodes in a tree."
+    }
+  },
+  {
+    id: 77, num: 997, title: "Find the Town Judge", topic: ["Array", "Hash Table", "Graph"], mostAsked: true,
+    askCount: 4300,
+    problem: `A town judge is trusted by everyone else (N-1 people), but trust NO ONE. Find the judge if they exist.\n\nExample:\nInput: n=3, trust=[[1,3],[2,3]] → Output: 3`,
+    solution: `def findJudge(n, trust):
+    scores = [0] * (n + 1)
+    for a, b in trust:
+        scores[a] -= 1
+        scores[b] += 1
+    for i in range(1, n + 1):
+        if scores[i] == n - 1:
+            return i
+    return -1`,
+    whyMethod: "Net Trust Score! A judge's 'in-degree' (trust received) is N-1 and 'out-degree' (trust given) is 0. So their Net Trust (In minus Out) must be exactly N-1.",
+    howMethod: "Initialize a score array of size N+1. For every [A, B] pair where A trusts B: decrement A's score and increment B's score. At the end, scan for someone with score N-1.",
+    whyFunction: "scores[a] -= 1 ensures we catch people who trust others (judge can't trust anyone). scores[b] += 1 counts supporters.",
+    howFunction: "n=2, trust=[[1,2]]. 1 trusts 2 -> score[1]=-1, score[2]=1. n-1 is 1. index 2 is judge.",
+    timeComplexity: "O(T + N)", spaceComplexity: "O(N)",
+    relatedQ: {
+      title: "Find the Celebrity (LC #277) — Medium",
+      problem: "Find a person everyone knows but who knows no one.",
+      solution: "Process of elimination with queries.",
+      why: "Functionally identical to Town Judge, but requires more optimal pointer elimination."
+    }
+  },
+  {
+    id: 78, num: 1002, title: "Find Common Characters", topic: ["Array", "Hash Table", "String"], mostAsked: false,
+    askCount: 2900,
+    problem: `Given string array, return list of all characters that show up in EVERY string (including duplicates).\n\nExample:\nInput: ["bella","label","roller"] → Output: ["e","l","l"]`,
+    solution: `def commonChars(words):
+    res = collections.Counter(words[0])
+    for w in words[1:]:
+        res &= collections.Counter(w)
+    return list(res.elements())`,
+    whyMethod: "Counter Intersection! The characters common to all strings are the ones that appear in the 'minimum common frequency' across all frequency maps.",
+    howMethod: "Create a frequency counter for the first word. For every other word, intersect its counter with your current one (which keeps only keys found in both with the minimum of their counts). Finally, expand keys to a list.",
+    whyFunction: "res &= Counter(w) is a Python shortcut for dictionary intersection that keeps the minimum count for each key. elements() expands frequencies back to a list.",
+    howFunction: "'bella' {l:2, e:1...} & 'label' {l:2, e:1...} -> keeps {l:2, e:1}. Intersect with 'roller' -> keeps {l:2, e:1}.",
+    timeComplexity: "O(N * WordLength)", spaceComplexity: "O(1) (charset size)",
+    relatedQ: {
+      title: "Intersection of Two Arrays II (LC #350)",
+      problem: "Find common elements with duplicates.",
+      solution: "Two frequency counts, take min.",
+      why: "The exact same logic applied to arrays instead of strings."
+    }
+  },
+  {
+    id: 79, num: 1005, title: "Maximize Sum Of Array After K Negations", topic: ["Array", "Greedy", "Sorting"], mostAsked: false,
+    askCount: 2400,
+    problem: `Negate array elements K times to maximize final sum.\n\nExample:\nInput: [4,2,3], k=1 → Output: 5 (-2,4,3 is 5)\nInput: [3,-1,0,2], k=3 → Output: 6 (-1 becomes 1, then -0 or same min)`,
+    solution: `def largestSumAfterKNegations(nums, k):
+    nums.sort()
+    for i in range(len(nums)):
+        if nums[i] < 0 and k > 0:
+            nums[i] *= -1
+            k -= 1
+    if k % 2 == 1:
+        nums.sort()
+        nums[0] *= -1
+    return sum(nums)`,
+    whyMethod: "Greedy Strategy! To maximize sum, prioritze negating the most negative numbers. If you have negations left over, flip the smallest absolute value back and forth.",
+    howMethod: "Sort the array. Flip every negative number (starting from smallest) into a positive and decrement K. If K is still odd after flipping all negatives, sort again and flip the smallest available positive number once (to minimize loss).",
+    whyFunction: "k % 2 == 1 check is crucial: flipping a number twice doesn't change anything, so only an 'extra' flip matters.",
+    howFunction: "[-4, -3, 2], k=3: Flip -4, Flip -3. k=1 left. Flip 3 (smallest positive) back to -3. Sum: 4+-3+2=3.",
+    timeComplexity: "O(n log n)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Minimum Difference Between Largest and Smallest (LC #1509)",
+      problem: "Change 3 elements to minimize range.",
+      solution: "Greedy removal of ends after sorting.",
+      why: "Both involve sorting and greedily modifying extreme values to hit a goal."
+    }
+  },
+  {
+    id: 80, num: 1009, title: "Complement of Base 10 Integer", topic: ["Math", "Bit Manipulation"], mostAsked: false,
+    askCount: 2200,
+    problem: `Return the bit-complement of an integer (flip all 1s to 0 and 0s to 1).\n\nExample:\nInput: 5 (101) → Output: 2 (010)`,
+    solution: `def bitwiseComplement(n):
+    if n == 0: return 1
+    # Find number of bits
+    mask = 1
+    while mask < n:
+        mask = (mask << 1) + 1
+    return n ^ mask`,
+    whyMethod: "Bitwise XOR with a Mask! Flipping bits is equivalent to XORing a number with a string of 1s (mask). 101 ^ 111 = 010.",
+    howMethod: "First handle 0. Then, create a 'mask' that consists of all 1s and has the same number of bits as N. For N=5 (101), mask would be 7 (111). Result is N XOR mask.",
+    whyFunction: "mask = (mask << 1) + 1 builds a string of 1s (1 -> 11 -> 111). ^ is the binary toggle operator.",
+    howFunction: "N=5 (101). Mask=7 (111). 101 XOR 111 -> 010 (binary 2).",
+    timeComplexity: "O(log N)", spaceComplexity: "O(1)",
+    relatedQ: {
+      title: "Number Complement (LC #476)",
+      problem: "Same problem.",
+      solution: "XOR with all-ones bitmask.",
+      why: "Identical problem, just testing binary manipulation mastery."
+    }
   }
 ];
 
@@ -1019,7 +2294,7 @@ export default function App() {
   const [selectedQ, setSelectedQ] = useState(null);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [filter, setFilter] = useState({ topic: "All", search: "", sort: "mostAsked" });
-  const [tab, setTab] = useState("solution"); // solution | related | explain
+  const [tab, setTab] = useState("explain"); // explain | related | ai
   const [aiLoading, setAiLoading] = useState(false);
   const [aiAnswer, setAiAnswer] = useState("");
   const [userQuestion, setUserQuestion] = useState("");
@@ -1327,24 +2602,25 @@ export default function App() {
               <div style={styles.problemBox}>{q.problem}</div>
             </div>
 
+            <div style={styles.card}>
+              <div style={styles.cardTitle}>🐍 Python Solution</div>
+              <div style={styles.codeBlock}>{q.solution}</div>
+              <div style={styles.complexityRow}>
+                <span style={styles.complexityBadge("#22c55e")}>⏱ Time: {q.timeComplexity}</span>
+                <span style={styles.complexityBadge("#0090ff")}>💾 Space: {q.spaceComplexity}</span>
+              </div>
+            </div>
+
             <div style={styles.tabRow}>
-              {["solution", "explain", "related", "ai"].map(t => (
+              {["explain", "related", "ai"].map(t => (
                 <button key={t} style={styles.tabBtn(tab === t)} onClick={() => setTab(t)}>
-                  {t === "solution" ? "💻 Solution" : t === "explain" ? "📚 Deep Dive" : t === "related" ? "🔗 Related" : "🤖 Ask AI"}
+                  {t === "explain" ? "📚 Deep Dive" : t === "related" ? "🔗 Related" : "🤖 Ask AI"}
                 </button>
               ))}
             </div>
 
-            {tab === "solution" && (
+            {tab === "explain" && (
               <div>
-                <div style={styles.card}>
-                  <div style={styles.cardTitle}>🐍 Python Solution</div>
-                  <div style={styles.codeBlock}>{q.solution}</div>
-                  <div style={styles.complexityRow}>
-                    <span style={styles.complexityBadge("#22c55e")}>⏱ Time: {q.timeComplexity}</span>
-                    <span style={styles.complexityBadge("#0090ff")}>💾 Space: {q.spaceComplexity}</span>
-                  </div>
-                </div>
                 <div style={styles.card}>
                   <div style={styles.cardTitle}>💡 Why This Approach?</div>
                   <p style={styles.explainText}>{q.whyMethod}</p>
@@ -1353,11 +2629,6 @@ export default function App() {
                   <div style={styles.cardTitle}>🔄 How It Works (Step by Step)</div>
                   <p style={styles.explainText}>{q.howMethod}</p>
                 </div>
-              </div>
-            )}
-
-            {tab === "explain" && (
-              <div>
                 <div style={styles.card}>
                   <div style={styles.cardTitle}>❓ Why Use This Function/Method?</div>
                   <p style={styles.explainText}>{q.whyFunction}</p>
