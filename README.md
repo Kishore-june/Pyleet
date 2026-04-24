@@ -51,4 +51,4 @@ This project is ready to be deployed to GitHub Pages.
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by Kishore
