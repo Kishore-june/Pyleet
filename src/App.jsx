@@ -5,9 +5,12 @@ import answersData from "./answer.json";
 import { useState, useEffect, useMemo } from "react";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
-const COMPANIES = relationData.COMPANIES;;
+const COMPANIES = relationData.COMPANIES;
 
-const COMPANY_COLORS = relationData.COMPANY_COLORS;;
+const COMPANY_COLORS = relationData.COMPANY_COLORS;
+
+// Glob import all company icons from the Icons folder to ensure they are bundled correctly
+const COMPANY_ICONS = import.meta.glob("./Icons/*.png", { eager: true, import: "default" });
 
 const QUESTIONS = questionsData.map(q => {
   const ans = answersData.find(a => a.id === q.id) || {};
@@ -168,12 +171,20 @@ User question: ${prompt}` }]
   const progress = Math.round((solvedSet.size / QUESTIONS.length) * 100);
   
   const Logo = ({ company, size = 24 }) => {
-    const logo = COMPANY_COLORS[company]?.logo;
-    if (!logo) return null;
-    if (logo.startsWith("/")) {
-      return <img src={logo} alt={company} style={{ width: size, height: size, objectFit: "contain" }} />;
+    const logoData = COMPANY_COLORS[company]?.logo;
+    if (!logoData) return null;
+
+    // If it's a path (e.g., "/Icons/google.png"), find it in our bundled icons
+    if (typeof logoData === 'string' && logoData.startsWith("/")) {
+      const fileName = logoData.split("/").pop();
+      const bundledLogo = COMPANY_ICONS[`./Icons/${fileName}`];
+      if (bundledLogo) {
+        return <img src={bundledLogo} alt={company} style={{ width: size, height: size, objectFit: "contain" }} />;
+      }
     }
-    return <div style={{ fontSize: size }}>{logo}</div>;
+
+    // Fallback for emojis or other strings
+    return <div style={{ fontSize: size }}>{logoData}</div>;
   };
 
   // ── HOME PAGE ──
