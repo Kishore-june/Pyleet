@@ -30,11 +30,18 @@ export default function App() {
   const [aiLoading, setAiLoading] = useState(false);
   const [aiAnswer, setAiAnswer] = useState("");
   const [userQuestion, setUserQuestion] = useState("");
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [solvedSet, setSolvedSet] = useState(() => {
     try { return new Set(JSON.parse(localStorage.getItem("solved") || "[]")); }
     catch { return new Set(); }
   });
   const [apiKey, setApiKey] = useState(localStorage.getItem("gemini_api_key") || "");
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const saveSolved = (s) => {
     try { localStorage.setItem("solved", JSON.stringify([...s])); } catch {}
@@ -102,59 +109,59 @@ User question: ${prompt}` }]
   // ── STYLES ──
   const styles = {
     app: { minHeight: "100vh", background: "#0a0e1a", color: "#e2e8f0", fontFamily: "'JetBrains Mono', 'Fira Code', monospace" },
-    nav: { background: "rgba(13,18,32,0.95)", borderBottom: "1px solid #1e2d4a", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(10px)" },
-    logo: { fontSize: 20, fontWeight: 800, background: "linear-gradient(135deg, #00d4ff, #0090ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", cursor: "pointer" },
-    navBtn: (active) => ({ background: active ? "#1e3a5f" : "transparent", border: active ? "1px solid #0090ff" : "1px solid transparent", color: active ? "#00d4ff" : "#94a3b8", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 13, transition: "all .2s" }),
-    hero: { textAlign: "center", padding: "80px 24px 60px", background: "radial-gradient(ellipse at 50% 0%, rgba(0,144,255,0.12) 0%, transparent 70%)" },
-    heroTitle: { fontSize: 48, fontWeight: 900, lineHeight: 1.1, marginBottom: 16, background: "linear-gradient(135deg, #fff 30%, #00d4ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" },
-    heroSub: { fontSize: 18, color: "#94a3b8", maxWidth: 560, margin: "0 auto 40px" },
-    statsRow: { display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", marginBottom: 48 },
-    stat: { textAlign: "center" },
-    statNum: { fontSize: 36, fontWeight: 800, color: "#00d4ff" },
-    statLabel: { fontSize: 13, color: "#64748b", marginTop: 4 },
-    ctaBtn: (primary) => ({ padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 16, cursor: "pointer", transition: "all .2s", fontFamily: "inherit", background: primary ? "linear-gradient(135deg, #0090ff, #00d4ff)" : "transparent", border: primary ? "none" : "1px solid #334155", color: primary ? "#000" : "#94a3b8" }),
-    section: { padding: "0 24px 48px", maxWidth: 1200, margin: "0 auto" },
-    sectionTitle: { fontSize: 22, fontWeight: 700, color: "#fff", marginBottom: 20, paddingTop: 8 },
-    companyGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 12 },
-    companyCard: (name, active) => ({ background: active ? COMPANY_COLORS[name]?.bg || "#1e2d4a" : "#0f172a", border: `1px solid ${active ? (COMPANY_COLORS[name]?.border || "#0090ff") : "#1e2d4a"}`, borderRadius: 10, padding: "14px 12px", cursor: "pointer", textAlign: "center", transition: "all .2s" }),
-    companyName: (name) => ({ fontSize: 13, fontWeight: 600, color: COMPANY_COLORS[name]?.text || "#94a3b8", marginTop: 6 }),
-    companyCount: { fontSize: 11, color: "#64748b", marginTop: 2 },
+    nav: { background: "rgba(13,18,32,0.95)", borderBottom: "1px solid #1e2d4a", padding: isMobile ? "0 12px" : "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 60, position: "sticky", top: 0, zIndex: 100, backdropFilter: "blur(10px)", flexWrap: "wrap", gap: 10 },
+    logo: { fontSize: isMobile ? 18 : 20, fontWeight: 800, background: "linear-gradient(135deg, #00d4ff, #0090ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", cursor: "pointer" },
+    navBtn: (active) => ({ background: active ? "#1e3a5f" : "transparent", border: active ? "1px solid #0090ff" : "1px solid transparent", color: active ? "#00d4ff" : "#94a3b8", padding: isMobile ? "4px 10px" : "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: isMobile ? 12 : 13, transition: "all .2s" }),
+    hero: { textAlign: "center", padding: isMobile ? "40px 20px 40px" : "80px 24px 60px", background: "radial-gradient(ellipse at 50% 0%, rgba(0,144,255,0.12) 0%, transparent 70%)" },
+    heroTitle: { fontSize: isMobile ? 32 : 48, fontWeight: 900, lineHeight: 1.1, marginBottom: 16, background: "linear-gradient(135deg, #fff 30%, #00d4ff 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" },
+    heroSub: { fontSize: isMobile ? 15 : 18, color: "#94a3b8", maxWidth: isMobile ? "100%" : 560, margin: "0 auto 40px" },
+    statsRow: { display: "flex", justifyContent: "center", gap: isMobile ? 16 : 32, flexWrap: "wrap", marginBottom: isMobile ? 32 : 48 },
+    stat: { textAlign: "center", minWidth: isMobile ? 120 : "auto" },
+    statNum: { fontSize: isMobile ? 28 : 36, fontWeight: 800, color: "#00d4ff" },
+    statLabel: { fontSize: 12, color: "#64748b", marginTop: 4 },
+    ctaBtn: (primary) => ({ padding: isMobile ? "10px 20px" : "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: isMobile ? 14 : 16, cursor: "pointer", transition: "all .2s", fontFamily: "inherit", background: primary ? "linear-gradient(135deg, #0090ff, #00d4ff)" : "transparent", border: primary ? "none" : "1px solid #334155", color: primary ? "#000" : "#94a3b8" }),
+    section: { padding: isMobile ? "0 16px 32px" : "0 24px 48px", maxWidth: 1200, margin: "0 auto" },
+    sectionTitle: { fontSize: isMobile ? 18 : 22, fontWeight: 700, color: "#fff", marginBottom: 16, paddingTop: 8 },
+    companyGrid: { display: "grid", gridTemplateColumns: isMobile ? "repeat(auto-fill, minmax(110px, 1fr))" : "repeat(auto-fill, minmax(140px, 1fr))", gap: 10 },
+    companyCard: (name, active) => ({ background: active ? COMPANY_COLORS[name]?.bg || "#1e2d4a" : "#0f172a", border: `1px solid ${active ? (COMPANY_COLORS[name]?.border || "#0090ff") : "#1e2d4a"}`, borderRadius: 10, padding: isMobile ? "10px 8px" : "14px 12px", cursor: "pointer", textAlign: "center", transition: "all .2s" }),
+    companyName: (name) => ({ fontSize: 12, fontWeight: 600, color: COMPANY_COLORS[name]?.text || "#94a3b8", marginTop: 6 }),
+    companyCount: { fontSize: 10, color: "#64748b", marginTop: 2 },
     filterBar: { display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20, alignItems: "center" },
-    searchInput: { flex: 1, minWidth: 200, background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 8, padding: "8px 14px", color: "#e2e8f0", fontSize: 14, fontFamily: "inherit", outline: "none" },
+    searchInput: { flex: 1, minWidth: isMobile ? 150 : 200, background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 8, padding: "8px 14px", color: "#e2e8f0", fontSize: 14, fontFamily: "inherit", outline: "none" },
     select: { background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 8, padding: "8px 12px", color: "#94a3b8", fontSize: 13, fontFamily: "inherit", cursor: "pointer" },
     qList: { display: "flex", flexDirection: "column", gap: 8 },
-    qRow: (solved) => ({ background: solved ? "rgba(0,144,255,0.05)" : "#0f172a", border: `1px solid ${solved ? "#0090ff44" : "#1e2d4a"}`, borderRadius: 10, padding: "14px 18px", cursor: "pointer", display: "flex", alignItems: "center", gap: 12, transition: "all .2s" }),
-    qNum: { fontSize: 13, color: "#64748b", minWidth: 36 },
-    qTitle: { flex: 1, fontSize: 15, fontWeight: 600, color: "#e2e8f0" },
-    topicTag: (t) => ({ fontSize: 11, padding: "3px 8px", borderRadius: 4, background: "#1e2d4a", color: "#64748b", border: "1px solid #1e3352" }),
-    hotBadge: { fontSize: 10, padding: "2px 7px", borderRadius: 4, background: "#ff450020", color: "#ff6b6b", border: "1px solid #ff450040" },
+    qRow: (solved) => ({ background: solved ? "rgba(0,144,255,0.05)" : "#0f172a", border: `1px solid ${solved ? "#0090ff44" : "#1e2d4a"}`, borderRadius: 10, padding: isMobile ? "12px 14px" : "14px 18px", cursor: "pointer", display: "flex", alignItems: "center", gap: isMobile ? 8 : 12, transition: "all .2s" }),
+    qNum: { fontSize: 13, color: "#64748b", minWidth: isMobile ? 30 : 36 },
+    qTitle: { flex: 1, fontSize: isMobile ? 14 : 15, fontWeight: 600, color: "#e2e8f0" },
+    topicTag: (t) => ({ fontSize: 10, padding: "2px 6px", borderRadius: 4, background: "#1e2d4a", color: "#64748b", border: "1px solid #1e3352" }),
+    hotBadge: { fontSize: 10, padding: "2px 7px", borderRadius: 4, background: "#ff450020", color: "#ff6b6b", border: "1px solid #ff450040", display: isMobile ? "none" : "block" },
     checkBtn: (solved) => ({ width: 24, height: 24, borderRadius: 6, border: `1px solid ${solved ? "#00d4ff" : "#334155"}`, background: solved ? "#00d4ff22" : "transparent", color: solved ? "#00d4ff" : "#64748b", fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }),
-    detailWrap: { maxWidth: 1400, margin: "0 auto", padding: "0 24px 60px" },
-    detailLayout: { display: "flex", gap: 24, marginTop: 24, alignItems: "flex-start" },
-    leftCol: { flex: "1", minWidth: 0, position: "sticky", top: 84 },
-    rightCol: { flex: "1", minWidth: 0 },
+    detailWrap: { maxWidth: 1400, margin: "0 auto", padding: isMobile ? "0 16px 40px" : "0 24px 60px" },
+    detailLayout: { display: "flex", gap: 24, marginTop: 24, alignItems: "flex-start", flexDirection: isMobile ? "column" : "row" },
+    leftCol: { width: "100%", flex: "1", minWidth: 0, position: isMobile ? "static" : "sticky", top: 84 },
+    rightCol: { width: "100%", flex: "1", minWidth: 0 },
     backBtn: { background: "transparent", border: "1px solid #1e2d4a", color: "#94a3b8", padding: "8px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13, marginBottom: 20, fontFamily: "inherit" },
-    detailHeader: { background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 12, padding: "24px", marginBottom: 20 },
+    detailHeader: { background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 12, padding: isMobile ? "16px" : "24px", marginBottom: 20 },
     detailNum: { fontSize: 13, color: "#64748b" },
-    detailTitle: { fontSize: 28, fontWeight: 800, color: "#fff", margin: "4px 0 12px" },
-    badge: (color) => ({ display: "inline-block", fontSize: 11, padding: "3px 10px", borderRadius: 20, background: color + "20", color, border: `1px solid ${color}40`, marginRight: 8 }),
-    problemBox: { background: "#060b14", border: "1px solid #1e2d4a", borderRadius: 8, padding: 20, marginTop: 16, fontSize: 14, lineHeight: 1.8, color: "#94a3b8", whiteSpace: "pre-wrap", fontFamily: "inherit" },
-    tabRow: { display: "flex", gap: 4, marginBottom: 16, borderBottom: "1px solid #1e2d4a", paddingBottom: 0 },
-    tabBtn: (active) => ({ background: "transparent", border: "none", borderBottom: active ? "2px solid #00d4ff" : "2px solid transparent", color: active ? "#00d4ff" : "#64748b", padding: "10px 16px", cursor: "pointer", fontSize: 13, fontWeight: active ? 700 : 400, fontFamily: "inherit", transition: "all .2s", marginBottom: -1 }),
-    card: { background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 12, padding: 20, marginBottom: 16 },
+    detailTitle: { fontSize: isMobile ? 22 : 28, fontWeight: 800, color: "#fff", margin: "4px 0 12px" },
+    badge: (color) => ({ display: "inline-block", fontSize: 10, padding: "2px 8px", borderRadius: 20, background: color + "20", color, border: `1px solid ${color}40`, marginRight: 6 }),
+    problemBox: { background: "#060b14", border: "1px solid #1e2d4a", borderRadius: 8, padding: 16, marginTop: 12, fontSize: 14, lineHeight: 1.7, color: "#94a3b8", whiteSpace: "pre-wrap", fontFamily: "inherit" },
+    tabRow: { display: "flex", gap: 4, marginBottom: 16, borderBottom: "1px solid #1e2d4a", paddingBottom: 0, overflowX: "auto", scrollbarWidth: "none" },
+    tabBtn: (active) => ({ background: "transparent", border: "none", borderBottom: active ? "2px solid #00d4ff" : "2px solid transparent", color: active ? "#00d4ff" : "#64748b", padding: "10px 16px", cursor: "pointer", fontSize: 13, fontWeight: active ? 700 : 400, fontFamily: "inherit", transition: "all .2s", marginBottom: -1, whiteSpace: "nowrap" }),
+    card: { background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 12, padding: isMobile ? 16 : 20, marginBottom: 16 },
     cardTitle: { fontSize: 14, fontWeight: 700, color: "#00d4ff", marginBottom: 10 },
-    codeBlock: { background: "#060b14", border: "1px solid #1e3352", borderRadius: 8, padding: 18, fontSize: 13, lineHeight: 1.8, color: "#7dd3fc", whiteSpace: "pre", overflowX: "auto", fontFamily: "'JetBrains Mono', monospace" },
-    explainText: { fontSize: 14, color: "#94a3b8", lineHeight: 1.8 },
+    codeBlock: { background: "#060b14", border: "1px solid #1e3352", borderRadius: 8, padding: 14, fontSize: 12, lineHeight: 1.6, color: "#7dd3fc", whiteSpace: "pre", overflowX: "auto", fontFamily: "'JetBrains Mono', monospace" },
+    explainText: { fontSize: 14, color: "#94a3b8", lineHeight: 1.7 },
     highlight: { color: "#fbbf24" },
-    complexityRow: { display: "flex", gap: 16, marginTop: 12 },
+    complexityRow: { display: "flex", gap: 12, marginTop: 12, flexDirection: isMobile ? "column" : "row" },
     complexityBadge: (color) => ({ fontSize: 12, padding: "4px 12px", borderRadius: 6, background: color + "15", color, border: `1px solid ${color}30` }),
-    aiBox: { background: "#060b14", border: "1px solid #1e3352", borderRadius: 12, padding: 20, marginTop: 16 },
+    aiBox: { background: "#060b14", border: "1px solid #1e3352", borderRadius: 12, padding: isMobile ? 16 : 20, marginTop: 16 },
     aiInput: { width: "100%", background: "#0f172a", border: "1px solid #1e2d4a", borderRadius: 8, padding: "10px 14px", color: "#e2e8f0", fontSize: 14, fontFamily: "inherit", outline: "none", resize: "vertical", minHeight: 60, boxSizing: "border-box" },
     aiSubmit: { marginTop: 10, background: "linear-gradient(135deg,#0090ff,#00d4ff)", border: "none", borderRadius: 8, padding: "10px 24px", color: "#000", fontWeight: 700, cursor: "pointer", fontSize: 14, fontFamily: "inherit" },
     aiResponse: { marginTop: 14, fontSize: 14, color: "#94a3b8", lineHeight: 1.8, whiteSpace: "pre-wrap" },
     progressBar: { height: 4, background: "#1e2d4a", borderRadius: 2, marginTop: 8 },
     progressFill: { height: "100%", background: "linear-gradient(90deg,#0090ff,#00d4ff)", borderRadius: 2, transition: "width .5s" },
-    relatedCard: { background: "#060b14", border: "1px solid #1e3352", borderRadius: 12, padding: 20 },
+    relatedCard: { background: "#060b14", border: "1px solid #1e3352", borderRadius: 12, padding: isMobile ? 16 : 20 },
     relatedTitle: { fontSize: 16, fontWeight: 700, color: "#fbbf24", marginBottom: 8 },
   };
 
@@ -222,7 +229,7 @@ User question: ${prompt}` }]
       <div style={styles.section}>
         <div style={styles.sectionTitle}>🏢 Top Companies</div>
         <div style={styles.companyGrid}>
-          {COMPANY_LIST.slice(0, 8).map(c => (
+          {COMPANY_LIST.map(c => (
             <div key={c} style={styles.companyCard(c, false)} onClick={() => { setSelectedCompany(c); setView("list"); }}>
               <Logo company={c} size={24} />
               <div style={styles.companyName(c)}>{c}</div>
@@ -249,7 +256,7 @@ User question: ${prompt}` }]
         <div style={{ paddingTop: 32 }}>
           <h2 style={{ fontSize: 32, fontWeight: 800, color: "#fff", marginBottom: 8 }}>Companies</h2>
           <p style={{ color: "#64748b", marginBottom: 32 }}>Click a company to see which Easy problems they ask most.</p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fill, minmax(${isMobile ? "140px" : "200px"}, 1fr))`, gap: 16 }}>
             {COMPANY_LIST.map(c => {
               const count = QUESTIONS.filter(q => (COMPANIES[c]||[]).includes(q.num)).length;
               return (
